@@ -3,13 +3,12 @@ using FYPManager.Entity.Users;
 using Npoi.Mapper;
 using Npoi.Mapper.Attributes;
 using NPOI.SS.Formula.Functions;
-using System.Reflection;
 
 namespace FYPManager.Entity.Data;
 
 internal class DataInitialiser
 {
-    private class UserData
+    private class UserExcelData
     {
         [Column("Name")]
         public string Name { get; set; } = "";
@@ -22,17 +21,41 @@ internal class DataInitialiser
     public static void SeedData(FYPMContext context)
     {
         SeedStudents(context);
+        SeedSupervisors(context);
+        SeedCoordinators(context);
     }
 
-    private static Student MapStudent(UserData data)
+    private static void SaveChanges(FYPMContext context)
     {
-        return new Student
+        try
         {
-            UserID = EmailService.GetUserID(data.Email),
-            Name = data.Name,
-            Email = data.Email,
-            Password = HashService.Hash("password")
-        };
+            context.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error occurred while seeding data: {ex.Message}");
+        }
+    }
+
+    private static List<T> MapUsers<T>(List<UserExcelData> dataList) where T : User, new()
+    {
+        var users = new List<T>();
+
+        foreach (var data in dataList)
+        {
+            if (string.IsNullOrWhiteSpace(data.Name) || string.IsNullOrWhiteSpace(data.Email))
+                continue;
+
+            users.Add(new()
+            {  
+                UserID = EmailService.GetUserID(data.Email).ToLower(),
+                Name = data.Name,
+                Email = data.Email.ToLower(),
+                Password = HashService.Hash("password") 
+            });
+        }
+
+        return users;
     }
 
     private static void SeedStudents(FYPMContext context)
@@ -41,17 +64,39 @@ internal class DataInitialiser
             return;
 
         var mapper = new Mapper("./Data/student list.xlsx");
-        var studentList = mapper.Take<UserData>("Sheet1").ToList();
+        var studentList = mapper.Take<UserExcelData>("Sheet1").ToList();
 
-        var students = studentList.Select(s => MapStudent(s.Value)).ToList();
+        var students = MapUsers<Student>(studentList.Select(s => s.Value).ToList());
         context.Students.AddRange(students);
 
-        try
-        {
-            context.SaveChanges();
-        } catch (Exception ex)
-        {
-            Console.WriteLine($"Error occurred while seeding data: {ex.Message}");
-        }
+        SaveChanges(context);
+    }
+
+    private static void SeedSupervisors(FYPMContext context)
+    {
+        if (context.Supervisors.Any())
+            return;
+
+        var mapper = new Mapper("./Data/faculty_list.xlsx");
+        var supervisorList = mapper.Take<UserExcelData>("30Aug2022_FYP Examiner List").ToList();
+
+        var supervisors = MapUsers<Supervisor>(supervisorList.Select(s => s.Value).ToList());
+        context.Supervisors.AddRange(supervisors);
+
+        SaveChanges(context);
+    }
+
+    private static void SeedCoordinators(FYPMContext context)
+    {
+        if (context.Coordinators.Any())
+            return;
+
+        var mapper = new Mapper("./Data/FYP coordinator.xlsx");
+        var coordinatorList = mapper.Take<UserExcelData>("30Aug2022_FYP Examiner List").ToList();
+
+        var coordinators = MapUsers<Coordinator>(coordinatorList.Select(s => s.Value).ToList());
+        context.Coordinators.AddRange(coordinators);
+
+        SaveChanges(context);
     }
 }

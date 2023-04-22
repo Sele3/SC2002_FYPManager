@@ -3,22 +3,50 @@ using FYPManager.Controller;
 using FYPManager.Entity;
 using FYPManager.Entity.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+// Read ConnectionString from appsettings.json
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .Build();
+var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+// Setup Dependency Injection
 var services = new ServiceCollection();
 
-services.AddDbContext<FYPMContext>();
+// Add DBContext
+services.AddDbContext<FYPMContext>(
+    options => options.UseSqlServer(connectionString));
+
+// Add Boundary
+services.AddTransient<LoginBoundary>();
+
+// Add Controller
+services.AddTransient<LoginController>();
 
 var serviceProvider = services.BuildServiceProvider();
 
-using (var context = serviceProvider.GetRequiredService<FYPMContext>())
+try
 {
-    if (!context.Database.EnsureCreated())
+    // Create DB if not exists and seed data
+    using (var context = serviceProvider.GetRequiredService<FYPMContext>())
     {
-        context.Database.Migrate();
+        if (!context.Database.EnsureCreated())
+            context.Database.Migrate();
+
+        DataInitialiser.SeedData(context);
     }
-    DataInitialiser.SeedData(context);
+
+    // Run Application
+    var loginBoundary = serviceProvider.GetRequiredService<LoginBoundary>();
+    loginBoundary.Run();
 }
-
-
-serviceProvider.Dispose();
+catch (Exception ex)
+{
+    Console.WriteLine($"An error occurred: {ex.Message}");
+}
+finally
+{
+    serviceProvider.Dispose();
+}
