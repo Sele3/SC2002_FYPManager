@@ -5,6 +5,7 @@ using FYPManager.Entity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 // Read ConnectionString from appsettings.json
 var configuration = new ConfigurationBuilder()
