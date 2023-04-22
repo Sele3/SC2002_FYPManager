@@ -5,9 +5,8 @@ using FYPManager.Entity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
-// Read ConnectionString from appsettings.json
+// Read Configuration
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
     .Build();
@@ -16,9 +15,11 @@ var connectionString = configuration.GetConnectionString("DefaultConnection");
 // Setup Dependency Injection
 var services = new ServiceCollection();
 
+// Add Configuration
+services.AddSingleton<IConfiguration>(configuration);
+
 // Add DBContext
-services.AddDbContext<FYPMContext>(
-    options => options.UseSqlServer(connectionString));
+services.AddDbContext<FYPMContext>();
 
 // Add Boundary
 services.AddTransient<LoginBoundary>();
@@ -30,13 +31,14 @@ var serviceProvider = services.BuildServiceProvider();
 
 try
 {
-    // Create DB if not exists and seed data
-    using (var context = serviceProvider.GetRequiredService<FYPMContext>())
+    // Seed Data
+    using (var scope = serviceProvider.CreateScope())
     {
-        if (!context.Database.EnsureCreated())
-            context.Database.Migrate();
+        var context = scope.ServiceProvider.GetRequiredService<FYPMContext>();
+        context.Database.EnsureCreated();
 
-        DataInitialiser.SeedData(context);
+        var dataInitializer = new DataInitialiser(configuration);
+        dataInitializer.SeedData(context);
     }
 
     // Run Application
@@ -46,6 +48,7 @@ try
 catch (Exception ex)
 {
     Console.WriteLine($"An error occurred: {ex.Message}");
+    Console.WriteLine(ex.StackTrace);
 }
 finally
 {
