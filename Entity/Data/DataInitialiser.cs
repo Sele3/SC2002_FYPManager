@@ -1,5 +1,6 @@
 ﻿using FYPManager.Boundary.Services;
 using FYPManager.Entity.Users;
+using Microsoft.Extensions.Configuration;
 using Npoi.Mapper;
 using Npoi.Mapper.Attributes;
 using NPOI.SS.Formula.Functions;
@@ -17,8 +18,13 @@ internal class DataInitialiser
         public string Email { get; set; } = "";
     }
 
+    private readonly IConfiguration _configuration;
+    public DataInitialiser(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
 
-    public static void SeedData(FYPMContext context)
+    public void SeedData(FYPMContext context)
     {
         SeedStudents(context);
         SeedSupervisors(context);
@@ -35,6 +41,19 @@ internal class DataInitialiser
         {
             Console.WriteLine($"Error occurred while seeding data: {ex.Message}");
         }
+    }
+
+    private List<UserExcelData> GetUserList(string excelFile)
+    {
+        var section = _configuration.GetRequiredSection(excelFile);
+        var pathName = section.GetRequiredSection("Path").Value;
+        var sheetName = section.GetRequiredSection("SheetName").Value;
+
+        var mapper = new Mapper(pathName);
+        return mapper
+            .Take<UserExcelData>(sheetName)
+            .Select(s => s.Value)
+            .ToList();
     }
 
     private static List<T> MapUsers<T>(List<UserExcelData> dataList) where T : User, new()
@@ -58,45 +77,39 @@ internal class DataInitialiser
         return users;
     }
 
-    private static void SeedStudents(FYPMContext context)
+    private void SeedStudents(FYPMContext context)
     {
         if (context.Students.Any())
             return;
 
-        var mapper = new Mapper("./Data/student list.xlsx");
-        var studentList = mapper.Take<UserExcelData>("Sheet1").ToList();
+        var userList = GetUserList("StudentExcel");
+        var students = MapUsers<Student>(userList);
 
-        var students = MapUsers<Student>(studentList.Select(s => s.Value).ToList());
         context.Students.AddRange(students);
-
         SaveChanges(context);
     }
 
-    private static void SeedSupervisors(FYPMContext context)
+    private void SeedSupervisors(FYPMContext context)
     {
         if (context.Supervisors.Any())
             return;
 
-        var mapper = new Mapper("./Data/faculty_list.xlsx");
-        var supervisorList = mapper.Take<UserExcelData>("30Aug2022_FYP Examiner List").ToList();
+        var userList = GetUserList("SupervisorExcel");
+        var supervisors = MapUsers<Supervisor>(userList);
 
-        var supervisors = MapUsers<Supervisor>(supervisorList.Select(s => s.Value).ToList());
         context.Supervisors.AddRange(supervisors);
-
         SaveChanges(context);
     }
 
-    private static void SeedCoordinators(FYPMContext context)
+    private void SeedCoordinators(FYPMContext context)
     {
         if (context.Coordinators.Any())
             return;
 
-        var mapper = new Mapper("./Data/FYP coordinator.xlsx");
-        var coordinatorList = mapper.Take<UserExcelData>("30Aug2022_FYP Examiner List").ToList();
+        var userList = GetUserList("CoordinatorExcel");
+        var coordinators = MapUsers<Coordinator>(userList);
 
-        var coordinators = MapUsers<Coordinator>(coordinatorList.Select(s => s.Value).ToList());
         context.Coordinators.AddRange(coordinators);
-
         SaveChanges(context);
     }
 }
