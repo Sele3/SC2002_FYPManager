@@ -17,9 +17,11 @@ var services = new ServiceCollection();
 
 // Add Configuration
 services.AddSingleton<IConfiguration>(configuration);
+services.AddTransient<DataInitialiser>();
 
 // Add DBContext
 services.AddDbContext<FYPMContext>();
+
 
 // Add Boundary
 services.AddTransient<LoginBoundary>();
@@ -37,8 +39,8 @@ try
         var context = scope.ServiceProvider.GetRequiredService<FYPMContext>();
         context.Database.EnsureCreated();
 
-        var dataInitializer = new DataInitialiser(configuration);
-        dataInitializer.SeedData(context);
+        var dataInitializer = scope.ServiceProvider.GetRequiredService<DataInitialiser>();
+        dataInitializer.SeedData();
     }
 
     // Run Application

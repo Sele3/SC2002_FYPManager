@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FYPManager.Entity.Projects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,4 +9,5 @@ namespace FYPManager.Entity.Users;
 
 public class Supervisor : User
 {
+    public ICollection<Project> Projects { get; set; } = new List<Project>();
 }

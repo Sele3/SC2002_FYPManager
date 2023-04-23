@@ -56,9 +56,10 @@ public class LoginBoundary
                     case 3:
                         _loginController.LoginAs<Coordinator>(userID, hashedPassword);
                         break;
-                }   
+                }
             }
-        } catch (LoginException ex)
+        }
+        catch (LoginException ex)
         {
             Console.WriteLine(ex.Message);
         }
