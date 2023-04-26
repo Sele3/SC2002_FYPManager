@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FYPManager", "FYPManager.csproj", "{A040F3D7-F651-4CB6-95F8-8CA273AA1D46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FYPManagerTests", "FYPManagerTests\FYPManagerTests.csproj", "{2AB15370-AE91-4A0C-B3A2-F2539F3E99BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FYPManager", "FYPManager\FYPManager.csproj", "{4DC2CEA8-BEC1-4EA0-9DCA-9F85A7A3DDBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A040F3D7-F651-4CB6-95F8-8CA273AA1D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A040F3D7-F651-4CB6-95F8-8CA273AA1D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A040F3D7-F651-4CB6-95F8-8CA273AA1D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A040F3D7-F651-4CB6-95F8-8CA273AA1D46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AB15370-AE91-4A0C-B3A2-F2539F3E99BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB15370-AE91-4A0C-B3A2-F2539F3E99BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB15370-AE91-4A0C-B3A2-F2539F3E99BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB15370-AE91-4A0C-B3A2-F2539F3E99BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DC2CEA8-BEC1-4EA0-9DCA-9F85A7A3DDBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DC2CEA8-BEC1-4EA0-9DCA-9F85A7A3DDBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DC2CEA8-BEC1-4EA0-9DCA-9F85A7A3DDBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DC2CEA8-BEC1-4EA0-9DCA-9F85A7A3DDBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

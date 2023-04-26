@@ -8,7 +8,7 @@ using NPOI.SS.Formula.Functions;
 
 namespace FYPManager.Entity.Data;
 
-internal class DataInitialiser
+public class DataInitialiser
 {
     private class ExcelData { }
     private class UserExcelData : ExcelData
@@ -68,11 +68,11 @@ internal class DataInitialiser
                 continue;
 
             users.Add(new()
-            {  
+            {
                 UserID = EmailService.GetUserID(data.Email).ToLower(),
-                Name = data.Name,
+                Name = data.Name.Trim(),
                 Email = data.Email.ToLower(),
-                Password = HashService.Hash("password") 
+                Password = HashService.Hash("password")
             });
         }
 
@@ -124,7 +124,7 @@ internal class DataInitialiser
                 continue;
 
             var supervisor = _context.Supervisors.FirstOrDefault(s => s.Name.Equals(data.Supervisor));
-            
+
             projects.Add(new()
             {
                 Title = data.Title,
@@ -138,7 +138,7 @@ internal class DataInitialiser
     {
         if (_context.Projects.Any())
             return;
-        
+
         var projectList = GetExcelList<ProjectExcelData>("ProjectExcel");
         var projects = MapProjects(projectList);
 

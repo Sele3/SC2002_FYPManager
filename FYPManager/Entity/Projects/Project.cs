@@ -25,7 +25,7 @@ public class Project
 
     [Required]
     public Supervisor Supervisor { get; set; } = null!;
-    
+
     public string? StudentID { get; set; }
 
     public Student? Student { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FYPManager.Boundary.Services;
 
-internal static class EmailService
+public static class EmailService
 {
     private static bool IsValidEmail(string email)
         => email != null && new EmailAddressAttribute().IsValid(email);
