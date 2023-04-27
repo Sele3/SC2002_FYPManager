@@ -1,5 +1,6 @@
 using FYPManager.Boundary.Services;
 using FYPManager.Entity.Data;
+using FYPManager.Entity.Projects;
 using FYPManager.Entity.Users;
 using Microsoft.Extensions.Configuration;
 
@@ -29,12 +30,12 @@ public class DataInitialiserTests
     public void TestSeedStudents()
     {
         // Arrange
-        var students = GetUsersFromConfiguration<Student>("SeedData:Students");
+        var dataList = GetDataListFromConfiguration<ExcelUserData>("SeedData:Students");
+        var students = MapUsers<Student>(dataList);
 
         // Act
 
         // Assert
-        students = MapUsers(students);
         CompareUsers(students);
     }
 
@@ -42,12 +43,12 @@ public class DataInitialiserTests
     public void TestSeedSupervisors()
     {
         // Arrange
-        var supervisors = GetUsersFromConfiguration<Supervisor>("SeedData:Supervisors");
+        var dataList = GetDataListFromConfiguration<ExcelUserData>("SeedData:Supervisors");
+        var supervisors = MapUsers<Supervisor>(dataList);
 
         // Act
 
         // Assert
-        supervisors = MapUsers(supervisors);
         CompareUsers(supervisors);
     }
 
@@ -55,49 +56,88 @@ public class DataInitialiserTests
     public void TestSeedCoordinators()
     {
         // Arrange
-        var coordinators = GetUsersFromConfiguration<Coordinator>("SeedData:Coordinators");
+        var dataList = GetDataListFromConfiguration<ExcelUserData>("SeedData:Coordinators");
+        var coordinators = MapUsers<Coordinator>(dataList);
 
         // Act
 
         // Assert
-        coordinators = MapUsers(coordinators);
         CompareUsers(coordinators);
     }
 
-    [TestCleanup]
-    public void Cleanup()
+    [TestMethod]
+    public void TestSeedProjects()
     {
-        _context.Database.EnsureDeleted();
+        // Arrange
+        var dataList = GetDataListFromConfiguration<ExcelProjectData>("SeedData:Projects");
+        var projects = MapProjects(dataList);
+
+        // Act
+
+        // Assert
+        CompareProjects(projects);
     }
 
-    private List<T> GetUsersFromConfiguration<T>(string sectionName) where T : User
+    [TestCleanup]
+    public void Cleanup() 
+        => _context.Database.EnsureDeleted();
+
+    private List<T> GetDataListFromConfiguration<T>(string sectionName) where T : ExcelData
     {
         var section = _configuration.GetRequiredSection(sectionName);
-        var users = section.Get<List<T>>();
-        return users ?? throw new AssertFailedException("Failed to get user list from configuration file.");
+        var dataList = section.Get<List<T>>();
+        return dataList ?? throw new AssertFailedException("Failed to get data list from configuration file.");
     }
 
-    private static List<T> MapUsers<T>(List<T> user) where T : User
+    private static List<T> MapUsers<T>(List<ExcelUserData> excelUserList) where T : User, new() 
+        => excelUserList.Select(excelUser => new T()
     {
-        foreach (var u in user)
-        {
-            u.Email = u.Email.ToLower();
-            u.UserID = EmailService.GetUserID(u.Email);
-            u.Password = HashService.Hash();
-        }
-        return user;
-    }
+        Name = excelUser.Name.Trim(),
+        Email = excelUser.Email.ToLower(),
+        UserID = EmailService.GetUserID(excelUser.Email.ToLower()),
+        Password = HashService.Hash()
+    }).ToList();
 
     private void CompareUsers<T>(List<T> users) where T : User
     {
-        var actualUsers = _context.Set<T>();
+        var databaseUsers = _context.Set<T>();
 
         foreach (var user in users)
         {
-            var actualUser = actualUsers.Find(user.UserID);
+            var databaseUser = databaseUsers.Find(user.UserID);
 
-            Assert.IsNotNull(actualUser);
-            Assert.AreEqual(user, actualUser);
+            Assert.IsNotNull(databaseUser);
+            Assert.AreEqual(user, databaseUser);
+        }
+    }
+
+    private List<Project> MapProjects(List<ExcelProjectData> projectDataList)
+    {
+        var projects = new List<Project>();
+        foreach (var project in projectDataList)
+        {
+            var supervisor = _context.Supervisors.FirstOrDefault(s => s.Name.Equals(project.Supervisor))
+                ?? throw new AssertFailedException($"Failed to find supervisor {project.Supervisor}.");
+
+            projects.Add(new()
+            {
+                SupervisorID = supervisor.UserID,
+                Supervisor = supervisor,
+                Title = project.Title,
+            });
+        }
+        return projects;
+    }
+
+    private void CompareProjects(List<Project> projects)
+    {
+        var actualProjects = _context.Projects;
+        foreach (var project in projects)
+        {
+            var actualProject = actualProjects.FirstOrDefault(p => p.Title.Equals(project.Title));
+
+            Assert.IsNotNull(actualProject);
+            Assert.AreEqual(project, actualProject);
         }
     }
 }
