@@ -3,32 +3,12 @@ using FYPManager.Entity.Projects;
 using FYPManager.Entity.Users;
 using Microsoft.Extensions.Configuration;
 using Npoi.Mapper;
-using Npoi.Mapper.Attributes;
-using NPOI.SS.Formula.Functions;
+
 
 namespace FYPManager.Entity.Data;
 
 public class DataInitialiser
 {
-    private class ExcelData { }
-    private class UserExcelData : ExcelData
-    {
-        [Column("Name")]
-        public string Name { get; set; } = "";
-
-        [Column("Email")]
-        public string Email { get; set; } = "";
-    }
-
-    private class ProjectExcelData : ExcelData
-    {
-        [Column("Supervisor")]
-        public string Supervisor { get; set; } = "";
-
-        [Column("Title")]
-        public string Title { get; set; } = "";
-    }
-
     private readonly IConfiguration _configuration;
     private readonly FYPMContext _context;
     public DataInitialiser(IConfiguration configuration, FYPMContext context)
@@ -45,6 +25,54 @@ public class DataInitialiser
         SeedProjects();
     }
 
+    private void SeedStudents()
+    {
+        if (_context.Students.Any())
+            return;
+
+        var userList = GetExcelList<ExcelUserData>("StudentExcel");
+        var students = MapUsers<Student>(userList);
+
+        _context.Students.AddRange(students);
+        _context.SaveChanges();
+    }
+
+    private void SeedSupervisors()
+    {
+        if (_context.Supervisors.Any())
+            return;
+
+        var userList = GetExcelList<ExcelUserData>("SupervisorExcel");
+        var supervisors = MapUsers<Supervisor>(userList);
+
+        _context.Supervisors.AddRange(supervisors);
+        _context.SaveChanges();
+    }
+
+    private void SeedCoordinators()
+    {
+        if (_context.Coordinators.Any())
+            return;
+
+        var userList = GetExcelList<ExcelUserData>("CoordinatorExcel");
+        var coordinators = MapUsers<Coordinator>(userList);
+
+        _context.Coordinators.AddRange(coordinators);
+        _context.SaveChanges();
+    }
+
+    private void SeedProjects()
+    {
+        if (_context.Projects.Any())
+            return;
+
+        var projectList = GetExcelList<ExcelProjectData>("ProjectExcel");
+        var projects = MapProjects(projectList);
+
+        _context.Projects.AddRange(projects);
+        _context.SaveChanges();
+    }
+
     private List<T> GetExcelList<T>(string excelFile) where T : ExcelData
     {
         var section = _configuration.GetRequiredSection(excelFile);
@@ -58,7 +86,7 @@ public class DataInitialiser
             .ToList();
     }
 
-    private static List<T> MapUsers<T>(List<UserExcelData> dataList) where T : User, new()
+    private static List<T> MapUsers<T>(List<ExcelUserData> dataList) where T : User, new()
     {
         var users = new List<T>();
 
@@ -79,43 +107,7 @@ public class DataInitialiser
         return users;
     }
 
-    private void SeedStudents()
-    {
-        if (_context.Students.Any())
-            return;
-
-        var userList = GetExcelList<UserExcelData>("StudentExcel");
-        var students = MapUsers<Student>(userList);
-
-        _context.Students.AddRange(students);
-        _context.SaveChanges();
-    }
-
-    private void SeedSupervisors()
-    {
-        if (_context.Supervisors.Any())
-            return;
-
-        var userList = GetExcelList<UserExcelData>("SupervisorExcel");
-        var supervisors = MapUsers<Supervisor>(userList);
-
-        _context.Supervisors.AddRange(supervisors);
-        _context.SaveChanges();
-    }
-
-    private void SeedCoordinators()
-    {
-        if (_context.Coordinators.Any())
-            return;
-
-        var userList = GetExcelList<UserExcelData>("CoordinatorExcel");
-        var coordinators = MapUsers<Coordinator>(userList);
-
-        _context.Coordinators.AddRange(coordinators);
-        _context.SaveChanges();
-    }
-
-    private List<Project> MapProjects(List<ProjectExcelData> dataList)
+    private List<Project> MapProjects(List<ExcelProjectData> dataList)
     {
         var projects = new List<Project>();
         foreach (var data in dataList)
@@ -132,17 +124,5 @@ public class DataInitialiser
             });
         }
         return projects;
-    }
-
-    private void SeedProjects()
-    {
-        if (_context.Projects.Any())
-            return;
-
-        var projectList = GetExcelList<ProjectExcelData>("ProjectExcel");
-        var projects = MapProjects(projectList);
-
-        _context.Projects.AddRange(projects);
-        _context.SaveChanges();
     }
 }
