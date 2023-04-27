@@ -1,29 +1,31 @@
-﻿using FYPManager.Boundary.Services;
+﻿using FYPManager.Controller.Utility;
 using FYPManager.Entity;
 using FYPManager.Entity.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FYPManager.Exceptions;
 
 namespace FYPManager.Controller;
 
 public class LoginController
 {
     private readonly FYPMContext _context;
+    private readonly IServiceProvider _serviceProvider;
 
-    public LoginController(FYPMContext context)
+    public LoginController(FYPMContext context, IServiceProvider serviceProvider)
     {
         _context = context;
+        _serviceProvider = serviceProvider;
     }
 
-    public void LoginAs<T>(string username, string password) where T : User
+    public void LoginAs<T>(string userID, string password) where T : User
     {
-        //var user = _context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
-        //if (user != null)
-        //{
-        //    return true;
-        //}
+        var user = _context
+            .Set<T>()
+            .FirstOrDefault(u => u.UserID.Equals(userID) && u.Password.Equals(password))
+            ?? throw new LoginException();
+
+        UserSession.SetCurrentUser(user);
+
+        var userBoundary = UserBoundaryFactory.GetUserBoundary<T>(_serviceProvider);
+        userBoundary.Run();
     }
 }

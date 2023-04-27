@@ -1,7 +1,9 @@
 ﻿using FYPManager.Boundary;
+using FYPManager.Boundary.UserBoundary;
 using FYPManager.Controller;
 using FYPManager.Entity;
 using FYPManager.Entity.Data;
+using FYPManager.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,9 +24,11 @@ services.AddTransient<DataInitialiser>();
 // Add DBContext
 services.AddDbContext<FYPMContext>();
 
-
 // Add Boundary
 services.AddTransient<LoginBoundary>();
+services.AddTransient<StudentBoundary>();
+services.AddTransient<SupervisorBoundary>();
+services.AddTransient<CoordinatorBoundary>();
 
 // Add Controller
 services.AddTransient<LoginController>();

@@ -15,18 +15,21 @@ public class LoginBoundary
     }
 
     private static void DisplayMenu() => Console.WriteLine(
-        "<Enter 0 to shutdown system>\n" +
-        "Login as\n" +
-        "1. Student\n" +
-        "2. Supervisor\n" +
-        "3. FYP Coordinator\n" +
-        "Please select an option:");
+        $"\n" +
+        $"-------------------------------------------\n" +
+        $"<Enter 0 to shutdown system>\n" +
+        $"---------- Welcome to FYP Manager ----------\n" +
+        $"Login as\n" +
+        $"1. Student\n" +
+        $"2. Supervisor\n" +
+        $"3. FYP Coordinator\n" +
+        $"Please select an option:");
 
     public void Run()
     {
-        try
+        while (true)
         {
-            while (true)
+            try
             {
                 DisplayMenu();
 
@@ -38,8 +41,8 @@ public class LoginBoundary
                     return;
                 }
 
-                Console.WriteLine("Enter your username:");
-                var userID = StringHandler.ReadString();
+                Console.WriteLine("Enter your userID:");
+                var userID = StringHandler.ReadString().ToLower();
 
                 Console.WriteLine("Enter your password:");
                 var password = StringHandler.ReadString();
@@ -58,10 +61,15 @@ public class LoginBoundary
                         break;
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
-        catch (LoginException ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
+    }
+
+    public static string GetNewPassword(string currentPassword)
+    {
+        return "";
     }
 }
