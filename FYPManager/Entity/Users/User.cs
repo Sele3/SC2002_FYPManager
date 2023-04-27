@@ -16,30 +16,28 @@ public abstract class User
     public string Name { get; set; } = "";
 
     [Required, EmailAddress]
-
     public string Email { get; set; } = "";
 
     [Required]
     public string Password { get; set; } = "";
+
+    public override string ToString() =>
+        $"Name: {Name}\n" +
+        $"Email: {Email}\n" +
+        $"Password: {Password}";
 
     public override bool Equals(object? obj)
     {
         if (obj == null || GetType() != obj.GetType())
             return false;
         
-        var user = (User) obj;
-        return UserID.Equals(user.UserID) &&
-            Name.Equals(user.Name) &&
-            Email.Equals(user.Email) &&
-            Password.Equals(user.Password);
+        var other = (User)obj;
+        return UserID.Equals(other.UserID) &&
+            Name.Equals(other.Name) &&
+            Email.Equals(other.Email) &&
+            Password.Equals(other.Password);
     }
 
     public override int GetHashCode()
         => HashCode.Combine(UserID, Name, Email, Password);
-
-    public override string ToString() => 
-        $"  UserID: {UserID}\n" +
-        $"    Name: {Name}\n" +
-        $"   Email: {Email}\n" +
-        $"Password: {Password}";
 }

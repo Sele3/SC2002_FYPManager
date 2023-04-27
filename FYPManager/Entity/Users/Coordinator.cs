@@ -8,4 +8,7 @@ namespace FYPManager.Entity.Users;
 
 public class Coordinator : User
 {
+    public override string ToString() =>
+        $"CoordinatorID: {UserID}\n"
+        + base.ToString();
 }
