@@ -1,8 +1,6 @@
 ﻿using FYPManager.Boundary.Services;
 using FYPManager.Controller;
 using FYPManager.Entity.Users;
-using FYPManager.Exceptions;
-using FYPManager.Interfaces;
 
 namespace FYPManager.Boundary;
 

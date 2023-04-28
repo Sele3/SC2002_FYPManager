@@ -3,7 +3,6 @@ using FYPManager.Boundary.UserBoundary;
 using FYPManager.Controller;
 using FYPManager.Entity;
 using FYPManager.Entity.Data;
-using FYPManager.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

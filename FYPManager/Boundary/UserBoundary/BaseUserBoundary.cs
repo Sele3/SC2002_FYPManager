@@ -9,25 +9,20 @@ namespace FYPManager.Boundary.UserBoundary;
 
 public abstract class BaseUserBoundary
 {
-    protected readonly User _currentUser;
-
-    public BaseUserBoundary()
-    {
-        _currentUser = UserSession.GetCurrentUser();
-    }
-
     public abstract void Run();
+
+    protected static User GetCurrentUser() => UserSession.GetCurrentUser();
 
     protected string GetWelcomeText() =>
         $"\n" +
         $"--------------------------------------\n" +
-        $"Hello, {_currentUser.Name}\n" +
+        $"Hello, {GetCurrentUser().Name}\n" +
         $"<Enter 0 to log out>\n";
 
-    protected void ChangePassword()
+    protected static void ChangePassword()
     {
-        var newPassword = LoginBoundary.GetNewPassword(_currentUser.Password);
-        _currentUser.Password = newPassword;
+        var newPassword = LoginBoundary.GetNewPassword(GetCurrentUser().Password);
+        GetCurrentUser().Password = newPassword;
     }
 
     protected static void Logout()

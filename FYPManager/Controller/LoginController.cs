@@ -2,7 +2,6 @@
 using FYPManager.Entity;
 using FYPManager.Entity.Users;
 using FYPManager.Exceptions;
-using FYPManager.Interfaces;
 
 namespace FYPManager.Controller;
 
