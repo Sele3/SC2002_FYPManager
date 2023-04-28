@@ -1,11 +1,20 @@
 ﻿using FYPManager.Boundary.Services;
+using FYPManager.Controller.UserController;
+using FYPManager.Exceptions;
+using System.Configuration;
 
 namespace FYPManager.Boundary.UserBoundary;
 
 public class StudentBoundary : BaseUserBoundary
 {
-    //private readonly StudentController _studentController;
-    private void DisplayMenu() => Console.WriteLine(
+    private readonly StudentController _studentController;
+
+    public StudentBoundary(StudentController studentController)
+    {
+        _studentController = studentController;
+    }
+
+    private static void DisplayMenu() => Console.WriteLine(
         $"{GetWelcomeText()}" +
         $"---------- Student FYP Menu ----------\n" +
         $"-- PROJECTS\n" +
@@ -28,17 +37,61 @@ public class StudentBoundary : BaseUserBoundary
             {
                 DisplayMenu();
 
-                var idx = NumberHandler.ReadInt(3);
-                if (idx == 0)
+                var idx = NumberHandler.ReadInt(7);
+                
+                switch (idx)
                 {
-                    Logout();
-                    return;
+                    case 0:
+                        Console.WriteLine("Logging out ...");
+                        return;
+
+                    case 1:
+                        ViewAllAvailableProjects();
+                        break;
+
+                    //case 2:
+                    //    ViewAllocatedProject();
+                    //    break;
+                    //case 3:
+                    //    RequestProjectAllocation();
+                    //    break;
+                    //case 4:
+                    //    RequestProjectTitleChange();
+                    //    break;
+                    //case 5:
+                    //    RequestProjectDeregistration();
+                    //    break;
+                    //case 6:
+                    //    ViewRequestHistory();
+                    //    break;
+
+                    case 7:
+                        ChangePassword();
+                        break;
                 }
             }
-            catch (Exception ex)
+            catch (CustomException ex)
             {
                 Console.WriteLine(ex.Message);
             }
         }
+    }
+
+    private void ViewAllAvailableProjects()
+    {
+        var availableProjects = _studentController.GetAllAvailableProjects();
+        Console.WriteLine("Available Projects:");
+        availableProjects.ForEach(p =>
+        {
+            Console.WriteLine(new string('-', 50));
+            Console.WriteLine(p);
+            Console.WriteLine(new string('-', 50));
+        });
+    }
+
+    private void ChangePassword()
+    {
+        var newPassword = GetNewPassword();
+        _studentController.ChangePassword(newPassword);
     }
 }

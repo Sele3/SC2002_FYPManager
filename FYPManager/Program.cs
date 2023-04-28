@@ -1,6 +1,7 @@
 ﻿using FYPManager.Boundary;
 using FYPManager.Boundary.UserBoundary;
 using FYPManager.Controller;
+using FYPManager.Controller.UserController;
 using FYPManager.Entity;
 using FYPManager.Entity.Data;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,9 @@ services.AddTransient<CoordinatorBoundary>();
 
 // Add Controller
 services.AddTransient<LoginController>();
+services.AddTransient<StudentController>();
+services.AddTransient<SupervisorController>();
+services.AddTransient<CoordinatorController>();
 
 var serviceProvider = services.BuildServiceProvider();
 
