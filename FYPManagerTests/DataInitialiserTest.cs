@@ -2,6 +2,7 @@ using FYPManager.Boundary.Services;
 using FYPManager.Entity.Data;
 using FYPManager.Entity.Projects;
 using FYPManager.Entity.Users;
+using FYPManagerTests;
 using Microsoft.Extensions.Configuration;
 
 namespace FYPManager.FYPManagerTests;
@@ -12,28 +13,8 @@ namespace FYPManager.FYPManagerTests;
 /// It also tests that the data initialiser can map the data from the excel files to the correct user types.
 /// </summary>
 [TestClass]
-public class DataInitialiserTests
+public class DataInitialiserTest : BaseTest
 {
-    private IConfiguration _configuration = null!;
-    private TestFYPMContext _context = null!;
-    private DataInitialiser _dataInitialiser = null!;
-
-    /// <summary>
-    /// Set up the configuration and context before each test.
-    /// </summary>
-    [TestInitialize]
-    public void Setup()
-    {
-        _configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-        _context = new TestFYPMContext();
-        _dataInitialiser = new DataInitialiser(_configuration, _context);
-
-        _dataInitialiser.SeedData();
-    }
-
     /// <summary>
     /// Test that the data initialiser can seed the database with students.
     /// </summary>
@@ -97,13 +78,6 @@ public class DataInitialiserTests
         // Assert
         CompareProjects(projects);
     }
-
-    /// <summary>
-    /// Clean up the context after each test.
-    /// </summary>
-    [TestCleanup]
-    public void Cleanup() 
-        => _context.Database.EnsureDeleted();
 
     /// <summary>
     /// Get a list of data from the configuration file.

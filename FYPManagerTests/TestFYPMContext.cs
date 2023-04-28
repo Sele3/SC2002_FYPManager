@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 namespace FYPManager.FYPManagerTests;
 
-internal class TestFYPMContext : FYPMContext
+public class TestFYPMContext : FYPMContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
