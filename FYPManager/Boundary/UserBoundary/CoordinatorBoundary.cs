@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FYPManager.Interfaces;
-
-namespace FYPManager.Boundary.UserBoundary;
+﻿namespace FYPManager.Boundary.UserBoundary;
 
 public class CoordinatorBoundary : BaseUserBoundary
 {

@@ -2,6 +2,7 @@
 using FYPManager.Entity;
 using FYPManager.Entity.Users;
 using FYPManager.Exceptions;
+using FYPManager.Interfaces;
 
 namespace FYPManager.Controller;
 
@@ -18,14 +19,17 @@ public class LoginController
 
     public void LoginAs<T>(string userID, string password) where T : User
     {
-        var user = _context
-            .Set<T>()
-            .FirstOrDefault(u => u.UserID.Equals(userID) && u.Password.Equals(password))
-            ?? throw new LoginException();
+        var user = GetUser<T>(userID, password);
 
         UserSession.SetCurrentUser(user);
 
         var userBoundary = UserBoundaryFactory.GetUserBoundary<T>(_serviceProvider);
         userBoundary.Run();
     }
+
+    private T GetUser<T>(string userID, string password) where T : User
+        => _context
+            .Set<T>()
+            .FirstOrDefault(u => u.UserID.Equals(userID) && u.Password.Equals(password))
+            ?? throw new LoginException();
 }

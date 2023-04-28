@@ -1,6 +1,5 @@
 ﻿using FYPManager.Boundary.UserBoundary;
 using FYPManager.Entity.Users;
-using FYPManager.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FYPManager.Controller.Utility;

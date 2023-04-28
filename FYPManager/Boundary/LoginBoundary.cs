@@ -2,6 +2,7 @@
 using FYPManager.Controller;
 using FYPManager.Entity.Users;
 using FYPManager.Exceptions;
+using FYPManager.Interfaces;
 
 namespace FYPManager.Boundary;
 
@@ -16,7 +17,7 @@ public class LoginBoundary
 
     private static void DisplayMenu() => Console.WriteLine(
         $"\n" +
-        $"-------------------------------------------\n" +
+        $"--------------------------------------------\n" +
         $"<Enter 0 to shutdown system>\n" +
         $"---------- Welcome to FYP Manager ----------\n" +
         $"Login as\n" +

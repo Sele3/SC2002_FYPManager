@@ -9,7 +9,7 @@ public static class UserSession
     public static User GetCurrentUser()
         => _currentUser ?? throw new AccountException("Error. There is no active user currently.");
 
-    public static void SetCurrentUser(User? user)
+    public static void SetCurrentUser(User user)
     {
         if (_currentUser != null)
             throw new AccountException("Error. There is already an active user.");
@@ -17,5 +17,5 @@ public static class UserSession
     }
 
     public static void LogoutCurrentUser()
-        => SetCurrentUser(null);
+        => _currentUser = null;
 }
