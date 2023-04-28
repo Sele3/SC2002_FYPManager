@@ -22,11 +22,11 @@ public class Project
     public string SupervisorID { get; set; } = "";
 
     [Required]
-    public Supervisor Supervisor { get; set; } = null!;
+    public virtual Supervisor Supervisor { get; set; } = null!;
 
     public string? StudentID { get; set; }
 
-    public Student? Student { get; set; }
+    public virtual Student? Student { get; set; }
 
     [EnumDataType(typeof(ProjectStatus))]
     public ProjectStatus Status { get; set; } = ProjectStatus.Available;
@@ -34,8 +34,9 @@ public class Project
     public override string ToString() =>
         $"ProjectID: {ProjectID}\n" +
         $"Title: {Title}\n" +
-        $"SupervisorID: {SupervisorID}\n" +
-        $"StudentID: {StudentID}\n" +
+        $"Supervisor Name: {Supervisor.Name}\n" +
+        $"Supervisor Email: {Supervisor.Email}\n" +
+        $"{GetStudentInfoIfAvailable()}" +
         $"Status: {Status}";
 
     public override bool Equals(object? obj)
@@ -52,4 +53,10 @@ public class Project
 
     public override int GetHashCode()
         => base.GetHashCode();
+
+    private string GetStudentInfoIfAvailable()
+        => StudentID == null 
+            ? "" 
+            : $"Student Name: {Student!.Name}\n" +
+              $"Student Email: {Student!.Email}\n";
 }

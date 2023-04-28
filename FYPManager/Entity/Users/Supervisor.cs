@@ -9,7 +9,7 @@ namespace FYPManager.Entity.Users;
 
 public class Supervisor : User
 {
-    public ICollection<Project> Projects { get; set; } = new List<Project>();
+    public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
 
     public override string ToString() =>
         $"SupervisorID: {UserID}\n"
