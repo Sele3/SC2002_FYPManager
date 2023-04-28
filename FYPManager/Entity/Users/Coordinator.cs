@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FYPManager.Entity.Users;
 
-public class Coordinator : User
+public class Coordinator : Supervisor
 {
     public override string ToString() =>
         $"CoordinatorID: {UserID}\n"

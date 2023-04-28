@@ -72,14 +72,14 @@ public class LoginControllerTest : BaseTest
 
     [TestMethod]
     [ExpectedException(typeof(LoginException))]
-    public void TestStudentLoginWithSupervisorCredentials()
+    public void TestCoordinatorLoginWithSupervisorCredentials()
     {
         // Arrange
-        var userID = "asfli";
+        var userID = "limo";
         var password = HashService.Hash();
 
         // Act
-        PerformLogin<Student>(userID, password);
+        PerformLogin<Coordinator>(userID, password);
 
         // Assert
         // Expects LoginException to be thrown
