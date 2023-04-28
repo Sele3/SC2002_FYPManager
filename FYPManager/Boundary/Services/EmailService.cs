@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FYPManager.Boundary.Services;
 
+/// <summary>
+/// This service provides functionality to retrieve the userID associated with a given email address.
+/// </summary>
 public static class EmailService
 {
-    private static bool IsValidEmail(string email)
-        => email != null && new EmailAddressAttribute().IsValid(email);
-
+    /// <summary>
+    /// Retrieves the userID associated with a given email address.
+    /// </summary>
+    /// <param name="email">The email address for which to retrieve the userID.</param>
+    /// <returns>The userID associated with the email address.</returns>
+    /// <exception cref="ArgumentException">Thrown if the email address provided is invalid.</exception>
     public static string GetUserID(string email)
     {
         if (!IsValidEmail(email))
@@ -19,4 +20,12 @@ public static class EmailService
 
         return email.Split("@")[0];
     }
+
+    /// <summary>
+    /// Validates whether a given email address is valid.
+    /// </summary>
+    /// <param name="email">The email address to validate.</param>
+    /// <returns><see langword="true"/> if the email address is valid, <see langword="false"/> otherwise.</returns>
+    private static bool IsValidEmail(string email)
+        => email != null && new EmailAddressAttribute().IsValid(email);
 }

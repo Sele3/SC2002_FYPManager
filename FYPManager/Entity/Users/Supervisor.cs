@@ -1,12 +1,10 @@
 ﻿using FYPManager.Entity.Projects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FYPManager.Entity.Users;
 
+/// <summary>
+/// 
+/// </summary>
 public class Supervisor : User
 {
     public virtual ICollection<Project> Projects { get; set; } = new List<Project>();

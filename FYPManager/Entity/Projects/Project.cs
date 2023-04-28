@@ -4,11 +4,35 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FYPManager.Entity.Projects;
 
+/// <summary>
+/// The different statuses a <see cref="Project"/> can have.
+/// </summary>
 public enum ProjectStatus
 {
-    Available, Reserved, Unavailable, Allocated
+    /// <summary>
+    /// The <see cref="Project"/> is available for allocation to a <see cref="Student"/>.
+    /// </summary>
+    Available,
+
+    /// <summary>
+    /// The <see cref="Project"/> has been reserved by a <see cref="Student"/> but has not yet been allocated to them.
+    /// </summary>
+    Reserved,
+
+    /// <summary>
+    /// The <see cref="Project"/> is unavailable for allocation to a <see cref="Student"/>.
+    /// </summary>
+    Unavailable,
+
+    /// <summary>
+    /// The <see cref="Project"/> has been allocated to a <see cref="Student"/>.
+    /// </summary>
+    Allocated
 }
 
+/// <summary>
+/// A <see cref="Project"/> which is available for allocation to a <see cref="Student"/>.
+/// </summary>
 public class Project
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

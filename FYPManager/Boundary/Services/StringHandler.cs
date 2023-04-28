@@ -1,9 +1,12 @@
 ﻿namespace FYPManager.Boundary.Services;
 
+/// <summary>
+/// Utility class to handle user input of strings and characters.
+/// </summary>
 internal static class StringHandler
 {
     /// <summary>
-    /// Reads a non-empty string. 
+    /// Reads a non-empty string input. 
     /// </summary>
     /// <returns>The string input by the user.</returns>
     public static string ReadString()
@@ -29,11 +32,11 @@ internal static class StringHandler
     /// <summary>
     /// Reads a "Y" or "N" input.
     /// </summary>
-    /// <returns><c>true</c> if the user inputs a "Y"; <c>false</c> otherwise.</returns>
+    /// <returns><see langword="true"/> if the user inputs a "Y"; <see langword="false"/> otherwise.</returns>
     public static bool GetYesNo() => ReadString("Y", "N").Equals("Y");
 
     /// <summary>
-    /// Reads a non-empty character.
+    /// Reads a non-empty character input.
     /// </summary>
     /// <returns>The character input by the user.</returns>
     public static char ReadCharacter()

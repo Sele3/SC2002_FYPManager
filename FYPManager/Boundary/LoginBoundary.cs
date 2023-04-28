@@ -5,15 +5,25 @@ using FYPManager.Exceptions;
 
 namespace FYPManager.Boundary;
 
+/// <summary>
+/// The LoginBoundary class provides a console-based login system that allows users to login as a student, supervisor, or coordinator.
+/// </summary>
 public class LoginBoundary
 {
     private readonly LoginController _loginController;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LoginBoundary"/> class with the specified <see cref="LoginController"/>.
+    /// </summary>
+    /// <param name="loginController">The <see cref="LoginController"/> to be used.</param>
     public LoginBoundary(LoginController loginController)
     {
         _loginController = loginController;
     }
 
+    /// <summary>
+    /// Displays the login menu options to the console.
+    /// </summary>
     private static void DisplayMenu() => Console.WriteLine(
         $"\n" +
         $"--------------------------------------------\n" +
@@ -25,6 +35,9 @@ public class LoginBoundary
         $"3. FYP Coordinator\n" +
         $"Please select an option:");
 
+    /// <summary>
+    /// Displays the login menu and allows users to login as a student, supervisor, or coordinator.
+    /// </summary>
     public void Run()
     {
         while (true)

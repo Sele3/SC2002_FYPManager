@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FYPManager.Entity.Users;
 
+/// <summary>
+/// Abstract class representing a <see cref="User"/> in the system.
+/// </summary>
 public abstract class User
 {
     [Key]

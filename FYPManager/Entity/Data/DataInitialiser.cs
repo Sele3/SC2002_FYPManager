@@ -6,6 +6,9 @@ using Npoi.Mapper;
 
 namespace FYPManager.Entity.Data;
 
+/// <summary>
+/// This class is used to seed the database with data from excel files.
+/// </summary>
 public class DataInitialiser
 {
     private readonly IConfiguration _configuration;

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace FYPManager.Entity.Users;
 
-namespace FYPManager.Entity.Users;
-
+/// <summary>
+/// 
+/// </summary>
 public class Coordinator : Supervisor
 {
     public override string ToString() =>

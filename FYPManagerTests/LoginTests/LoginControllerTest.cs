@@ -8,12 +8,18 @@ using Moq;
 
 namespace FYPManagerTests.LoginTests;
 
+/// <summary>
+/// This class contains unit tests for the <see cref="LoginController"/> class.
+/// </summary>
 [TestClass]
 public class LoginControllerTest : BaseTest
 {
     private readonly Mock<SupervisorBoundary> _mockUserBoundary = new();
     private LoginController _loginController = null!;
 
+    /// <summary>
+    /// Initializes the test environment by setting up the mock objects and creating an instance of <see cref="LoginController"/>.
+    /// </summary>
     [TestInitialize]
     public override void Setup()
     {
@@ -27,6 +33,9 @@ public class LoginControllerTest : BaseTest
         _loginController = new LoginController(_context, _mockServiceProvider.Object);
     }
 
+    /// <summary>
+    /// Tests a successful login attempt by a <see cref="Supervisor"/>.
+    /// </summary>
     [TestMethod]
     public void TestSuccessfulSupervisorLogin()
     {
@@ -42,6 +51,10 @@ public class LoginControllerTest : BaseTest
         Assert.AreEqual(userID, UserSession.GetCurrentUser().UserID);
     }
 
+    /// <summary>
+    /// Tests a login attempt with an unknown userID by a <see cref="Supervisor"/>.
+    /// Expects a <see cref="LoginException"/> to be thrown.
+    /// </summary>
     [TestMethod]
     [ExpectedException(typeof(LoginException))]
     public void TestWrongUserIDSupervisorLogin()
@@ -56,6 +69,10 @@ public class LoginControllerTest : BaseTest
         // Expects LoginException to be thrown
     }
 
+    /// <summary>
+    /// Tests a login attempt with an incorrect password by a <see cref="Supervisor"/>.
+    /// Expects a <see cref="LoginException"/> to be thrown.
+    /// </summary>
     [TestMethod]
     [ExpectedException(typeof(LoginException))]
     public void TestWrongPasswordSupervisorLogin()
@@ -71,6 +88,10 @@ public class LoginControllerTest : BaseTest
         // Expects LoginException to be thrown
     }
 
+    /// <summary>
+    /// Tests a login attempt by a <see cref="Coordinator"/> using the credentials of a <see cref="Supervisor"/> user.
+    /// Expects a <see cref="LoginException"/> to be thrown.
+    /// </summary>
     [TestMethod]
     [ExpectedException(typeof(LoginException))]
     public void TestCoordinatorLoginWithSupervisorCredentials()
@@ -86,6 +107,12 @@ public class LoginControllerTest : BaseTest
         // Expects LoginException to be thrown
     }
 
+    /// <summary>
+    /// Helper method that performs a login attempt for the specified <see cref="User"/> using the given userID and password.
+    /// </summary>
+    /// <typeparam name="T">The type of <see cref="User"/> to log in as.</typeparam>
+    /// <param name="userID">The userID to use for the login attempt.</param>
+    /// <param name="password">The password to use for the login attempt.</param>
     private void PerformLogin<T>(string userID, string password) where T : User
         => _loginController.LoginAs<T>(userID, password);
 }
