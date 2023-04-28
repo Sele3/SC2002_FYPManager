@@ -1,6 +1,7 @@
 ﻿using FYPManager.Boundary.Services;
 using FYPManager.Controller;
 using FYPManager.Entity.Users;
+using FYPManager.Exceptions;
 
 namespace FYPManager.Boundary;
 
@@ -60,15 +61,10 @@ public class LoginBoundary
                         break;
                 }
             }
-            catch (Exception ex)
+            catch (CustomException ex)
             {
                 Console.WriteLine(ex.Message);
             }
         }
-    }
-
-    public static string GetNewPassword(string currentPassword)
-    {
-        return "";
     }
 }

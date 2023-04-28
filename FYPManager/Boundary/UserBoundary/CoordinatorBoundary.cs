@@ -1,4 +1,5 @@
 ﻿using FYPManager.Boundary.Services;
+using FYPManager.Exceptions;
 
 namespace FYPManager.Boundary.UserBoundary;
 
@@ -35,7 +36,7 @@ public class CoordinatorBoundary : SupervisorBoundary
                     return;
                 }
             }
-            catch (Exception ex)
+            catch (CustomException ex)
             {
                 Console.WriteLine(ex.Message);
             }

@@ -1,10 +1,11 @@
 ﻿using FYPManager.Boundary.Services;
+using FYPManager.Exceptions;
 
 namespace FYPManager.Boundary.UserBoundary;
 
 public class SupervisorBoundary : BaseUserBoundary
 {
-    private void DisplayMenu() => Console.WriteLine(
+    private static void DisplayMenu() => Console.WriteLine(
         $"{GetWelcomeText()}" +
         $"-------- Supervisor FYP Menu ---------\n" +
         $"-- PROJECTS\n" +
@@ -34,7 +35,7 @@ public class SupervisorBoundary : BaseUserBoundary
                     return;
                 }
             }
-            catch (Exception ex)
+            catch (CustomException ex)
             {
                 Console.WriteLine(ex.Message);
             }

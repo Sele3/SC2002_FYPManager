@@ -1,6 +1,7 @@
-﻿using FYPManager.Exceptions;
+﻿using FYPManager.Entity.Users;
+using FYPManager.Exceptions;
 
-namespace FYPManager.Entity.Users;
+namespace FYPManager.Controller.Utility;
 
 public static class UserSession
 {
