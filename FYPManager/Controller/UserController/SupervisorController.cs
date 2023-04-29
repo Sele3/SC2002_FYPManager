@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FYPManager.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,4 +9,5 @@ namespace FYPManager.Controller.UserController;
 
 public class SupervisorController : BaseUserController
 {
+    public SupervisorController(FYPMContext context) : base(context) { }
 }

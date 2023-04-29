@@ -13,8 +13,9 @@ public class FYPMContext : DbContext
             .AddJsonFile("appsettings.json")
             .Build();
 
-        optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-        optionsBuilder.UseLazyLoadingProxies();
+        optionsBuilder
+            .UseLazyLoadingProxies()
+            .UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

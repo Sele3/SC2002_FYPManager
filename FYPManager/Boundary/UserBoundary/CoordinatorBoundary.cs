@@ -1,11 +1,19 @@
 ﻿using FYPManager.Boundary.Services;
+using FYPManager.Controller.UserController;
 using FYPManager.Exceptions;
 
 namespace FYPManager.Boundary.UserBoundary;
 
 public class CoordinatorBoundary : SupervisorBoundary
 {
-    private void DisplayMenu() => Console.WriteLine(
+    private readonly CoordinatorController _coordinatorController;
+
+    public CoordinatorBoundary(CoordinatorController coordinatorController, SupervisorController supervisorController) : base(supervisorController)
+    {
+        _coordinatorController = coordinatorController;
+    }
+
+    private static void DisplayMenu() => Console.WriteLine(
         $"{GetWelcomeText()}" +
         $"-------- Coordinator FYP Menu --------\n" +
         $"-- PROJECTS\n" +
@@ -29,11 +37,39 @@ public class CoordinatorBoundary : SupervisorBoundary
             {
                 DisplayMenu();
 
-                var idx = NumberHandler.ReadInt(3);
-                if (idx == 0)
+                var idx = NumberHandler.ReadInt(8);
+                
+                switch (idx)
                 {
-                    Logout();
-                    return;
+                    case 0:
+                        Logout();
+                        return;
+
+                    //case 1:
+                    //    CreateNewProject();
+                    //    break;
+                    //case 2:
+                    //    UpdateExistingProjectTitle();
+                    //    break;
+                    //case 3:
+                    //    ViewMySubmittedProjects();
+                    //    break;
+                    //case 4:
+                    //    ViewAllExistingProjects();
+                    //    break;
+                    //case 5:
+                    //    ViewAllPendingRequests();
+                    //    break;
+                    //case 6:
+                    //    ViewAllRequestHistory();
+                    //    break;
+                    //case 7:
+                    //    RequestStudentTransfer();
+                    //    break;
+
+                    case 8:
+                        ChangePassword(_coordinatorController);
+                        break;
                 }
             }
             catch (CustomException ex)

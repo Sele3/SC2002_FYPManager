@@ -5,12 +5,7 @@ namespace FYPManager.Controller.UserController;
 
 public class StudentController : BaseUserController
 {
-    private readonly FYPMContext _context;
-
-    public StudentController(FYPMContext context)
-    {
-        _context = context;
-    }
+    public StudentController(FYPMContext context) : base(context)  { }
 
     public List<Project> GetAllAvailableProjects() 
         => _context.Projects

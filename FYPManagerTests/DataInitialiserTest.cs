@@ -105,7 +105,7 @@ public class DataInitialiserTest : BaseTest
         Name = excelUser.Name.Trim(),
         Email = excelUser.Email.ToLower(),
         UserID = EmailService.GetUserID(excelUser.Email.ToLower()),
-        Password = HashService.Hash()
+        Password = PasswordService.HashPassword()
     }).ToList();
 
     /// <summary>

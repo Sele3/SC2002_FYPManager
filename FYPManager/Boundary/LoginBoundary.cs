@@ -59,7 +59,7 @@ public class LoginBoundary
 
                 Console.WriteLine("Enter your password:");
                 var password = StringHandler.ReadString();
-                var hashedPassword = HashService.Hash(password);
+                var hashedPassword = PasswordService.HashPassword(password);
 
                 switch (idx)
                 {

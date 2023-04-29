@@ -1,10 +1,18 @@
 ﻿using FYPManager.Boundary.Services;
+using FYPManager.Controller.UserController;
 using FYPManager.Exceptions;
 
 namespace FYPManager.Boundary.UserBoundary;
 
 public class SupervisorBoundary : BaseUserBoundary
 {
+    private readonly SupervisorController _supervisorController;
+
+    public SupervisorBoundary(SupervisorController supervisorController)
+    {
+        _supervisorController = supervisorController;
+    }
+
     private static void DisplayMenu() => Console.WriteLine(
         $"{GetWelcomeText()}" +
         $"-------- Supervisor FYP Menu ---------\n" +
@@ -28,11 +36,35 @@ public class SupervisorBoundary : BaseUserBoundary
             {
                 DisplayMenu();
 
-                var idx = NumberHandler.ReadInt(3);
-                if (idx == 0)
+                var idx = NumberHandler.ReadInt(7);
+                
+                switch (idx)
                 {
-                    Logout();
-                    return;
+                    case 0:
+                        Logout();
+                        return;
+                    //case 1:
+                    //    CreateNewProject();
+                    //    break;
+                    //case 2:
+                    //    UpdateExistingProjectTitle();
+                    //    break;
+                    //case 3:
+                    //    ViewMySubmittedProjects();
+                    //    break;
+                    //case 4:
+                    //    ViewMyPendingRequests();
+                    //    break;
+                    //case 5:
+                    //    ViewMyRequestHistory();
+                    //    break;
+                    //case 6:
+                    //    RequestStudentTransfer();
+                    //    break;
+
+                    case 7:
+                        ChangePassword(_supervisorController);
+                        break;
                 }
             }
             catch (CustomException ex)

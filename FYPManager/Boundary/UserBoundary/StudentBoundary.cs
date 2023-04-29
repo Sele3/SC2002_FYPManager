@@ -42,7 +42,7 @@ public class StudentBoundary : BaseUserBoundary
                 switch (idx)
                 {
                     case 0:
-                        Console.WriteLine("Logging out ...");
+                        Logout();
                         return;
 
                     case 1:
@@ -66,7 +66,7 @@ public class StudentBoundary : BaseUserBoundary
                     //    break;
 
                     case 7:
-                        ChangePassword();
+                        ChangePassword(_studentController);
                         break;
                 }
             }
@@ -87,11 +87,5 @@ public class StudentBoundary : BaseUserBoundary
             Console.WriteLine(p);
             Console.WriteLine(new string('-', 50));
         });
-    }
-
-    private void ChangePassword()
-    {
-        var newPassword = GetNewPassword();
-        _studentController.ChangePassword(newPassword);
     }
 }

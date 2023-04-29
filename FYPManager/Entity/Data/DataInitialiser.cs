@@ -137,7 +137,7 @@ public class DataInitialiser
                 UserID = EmailService.GetUserID(data.Email).ToLower(),
                 Name = data.Name.Trim(),
                 Email = data.Email.ToLower(),
-                Password = HashService.Hash()
+                Password = PasswordService.HashPassword()
             });
         }
 
