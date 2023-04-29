@@ -14,7 +14,7 @@ namespace FYPManagerTests.LoginTests;
 [TestClass]
 public class LoginControllerTest : BaseTest
 {
-    private readonly Mock<SupervisorBoundary> _mockUserBoundary = new();
+    private readonly Mock<SupervisorBoundary> _mockSupervisorBoundary = new(null);
     private LoginController _loginController = null!;
 
     /// <summary>
@@ -28,7 +28,7 @@ public class LoginControllerTest : BaseTest
         var _mockServiceProvider = new Mock<IServiceProvider>();
         _mockServiceProvider
             .Setup(x => x.GetService(typeof(SupervisorBoundary)))
-            .Returns(_mockUserBoundary.Object);
+            .Returns(_mockSupervisorBoundary.Object);
 
         _loginController = new LoginController(_context, _mockServiceProvider.Object);
     }
@@ -41,13 +41,13 @@ public class LoginControllerTest : BaseTest
     {
         // Arrange
         var userID = "asfli";
-        var password = HashService.Hash();
+        var password = PasswordService.HashPassword();
 
         // Act
         PerformLogin<Supervisor>(userID, password);
 
         // Assert
-        _mockUserBoundary.Verify(b => b.Run(), Times.Once);
+        _mockSupervisorBoundary.Verify(b => b.Run(), Times.Once);
         Assert.AreEqual(userID, UserSession.GetCurrentUser().UserID);
     }
 
@@ -61,7 +61,7 @@ public class LoginControllerTest : BaseTest
     {
         // Arrange
         var userID = "unknown";
-        var password = HashService.Hash();
+        var password = PasswordService.HashPassword();
         // Act
         PerformLogin<Supervisor>(userID, password);
 
@@ -98,7 +98,7 @@ public class LoginControllerTest : BaseTest
     {
         // Arrange
         var userID = "limo";
-        var password = HashService.Hash();
+        var password = PasswordService.HashPassword();
 
         // Act
         PerformLogin<Coordinator>(userID, password);

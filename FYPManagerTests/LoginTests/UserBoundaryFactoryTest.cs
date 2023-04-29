@@ -1,7 +1,9 @@
 ﻿using FYPManager.Boundary.UserBoundary;
+using FYPManager.Controller.UserController;
 using FYPManager.Controller.Utility;
 using FYPManager.Entity.Users;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 
 namespace FYPManagerTests.LoginTests;
 
@@ -14,16 +16,19 @@ public class UserBoundaryFactoryTest
     private IServiceProvider _serviceProvider = null!;
 
     /// <summary>
-    /// Set up the test environment by creating an instance of <see cref="IServiceProvider"/>.
+    /// Set up the test environment by creating a mock instance of <see cref="IServiceProvider"/>.
     /// </summary>
     [TestInitialize]
     public void Setup()
     {
-        var services = new ServiceCollection();
-        services.AddScoped<StudentBoundary>();
-        services.AddScoped<SupervisorBoundary>();
-        services.AddScoped<CoordinatorBoundary>();
-        _serviceProvider = services.BuildServiceProvider();
+        var mockCoordinatorBoundary = new Mock<CoordinatorBoundary>(null, null);
+        var _mockServiceProvider = new Mock<IServiceProvider>();
+
+        _mockServiceProvider
+            .Setup(x => x.GetService(typeof(CoordinatorBoundary)))
+                .Returns(mockCoordinatorBoundary.Object);
+
+        _serviceProvider = _mockServiceProvider.Object;
     }
 
     /// <summary>
