@@ -26,13 +26,14 @@ public class LoginBoundary
     /// </summary>
     private static void DisplayMenu() => Console.WriteLine(
         $"\n" +
-        $"--------------------------------------------\n" +
-        $"<Enter 0 to shutdown system>\n" +
-        $"---------- Welcome to FYP Manager ----------\n" +
-        $"Login as\n" +
-        $"1. Student\n" +
-        $"2. Supervisor\n" +
-        $"3. FYP Coordinator\n" +
+        $"┌────────────────────────────────────────┐\n" +
+        $"│ <Enter 0 to shutdown system>           │\n" +
+        $"│──────── Welcome to FYP Manager ────────│\n" +
+        $"│ Login as                               │\n" +
+        $"│ 1. Student                             │\n" +
+        $"│ 2. Supervisor                          │\n" +
+        $"│ 3. Coordinator                         │\n" +
+        $"└────────────────────────────────────────┘\n" +
         $"Please select an option:");
 
     /// <summary>

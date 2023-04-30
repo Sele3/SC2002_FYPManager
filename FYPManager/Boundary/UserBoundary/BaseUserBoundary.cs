@@ -1,8 +1,6 @@
 ﻿using FYPManager.Boundary.Services;
 using FYPManager.Controller.UserController;
 using FYPManager.Controller.Utility;
-using FYPManager.Entity.Users;
-using FYPManager.Exceptions;
 
 namespace FYPManager.Boundary.UserBoundary;
 
@@ -12,9 +10,10 @@ public abstract class BaseUserBoundary
 
     protected static string GetWelcomeText() =>
         $"\n" +
-        $"--------------------------------------\n" +
-        $"Hello, {UserSession.GetCurrentUser().Name}\n" +
-        $"<Enter 0 to log out>\n";
+        $"┌─────────────────────────────────────┐\n" +
+        $"│ Hello, {UserSession.GetCurrentUser().Name,-29}│\n" +
+        $"│ <Enter 0 to log out>                │\n" +
+        $"└─────────────────────────────────────┘\n";
 
     protected static void ChangePassword(BaseUserController controller)
     {

@@ -15,17 +15,22 @@ public class SupervisorBoundary : BaseUserBoundary
 
     private static void DisplayMenu() => Console.WriteLine(
         $"{GetWelcomeText()}" +
-        $"-------- Supervisor FYP Menu ---------\n" +
-        $"-- PROJECTS\n" +
-        $"1. Create a new project\n" +
-        $"2. Update an existing project title\n" +
-        $"3. View my submitted projects\n" +
-        $"-- REQUESTS\n" +
-        $"4. View my pending requests\n" +
-        $"5. View my request history\n" +
-        $"6. Request a student transfer\n" +
-        $"-- SETTINGS\n" +
-        $"7. Change password\n" +
+        $"╔═════════════════════════════════════╗\n" +
+        $"║        Supervisor FYP Menu          ║\n" +
+        $"╟─────────────────────────────────────╢\n" +
+        $"║    PROJECTS                         ║\n" +
+        $"║ 1. Create a new project             ║\n" +
+        $"║ 2. Update an existing project title ║\n" +
+        $"║ 3. View my submitted projects       ║\n" +
+        $"║                                     ║\n" +
+        $"║    REQUESTS                         ║\n" +
+        $"║ 4. View my pending requests         ║\n" +
+        $"║ 5. View my request history          ║\n" +
+        $"║ 6. Request a student transfer       ║\n" +
+        $"║                                     ║\n" +
+        $"║    SETTINGS                         ║\n" +
+        $"║ 7. Change password                  ║\n" +
+        $"╚═════════════════════════════════════╝\n" +
         $"Please select an option:");
 
     public override void Run()

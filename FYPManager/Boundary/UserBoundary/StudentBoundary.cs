@@ -1,7 +1,6 @@
 ﻿using FYPManager.Boundary.Services;
 using FYPManager.Controller.UserController;
 using FYPManager.Exceptions;
-using System.Configuration;
 
 namespace FYPManager.Boundary.UserBoundary;
 
@@ -16,18 +15,23 @@ public class StudentBoundary : BaseUserBoundary
 
     private static void DisplayMenu() => Console.WriteLine(
         $"{GetWelcomeText()}" +
-        $"---------- Student FYP Menu ----------\n" +
-        $"-- PROJECTS\n" +
-        $"1. View all available projects\n" +
-        $"2. View my allocated project\n" +
-        $"-- REQUESTS\n" +
-        $"3. Request a project allocation\n" +
-        $"4. Request a project title change\n" +
-        $"5. Request a project deregistration\n" +
-        $"6. View my request history\n" +
-        $"-- SETTINGS\n" +
-        $"7. Change password\n" +
-        $"Please select an option:");
+        $"╔═════════════════════════════════════╗\n" +
+        $"║        Student FYP Menu             ║\n" +
+        $"╟─────────────────────────────────────╢\n" +
+        $"║    PROJECTS                         ║\n" +
+        $"║ 1. View all available projects      ║\n" +
+        $"║ 2. View my allocated project        ║\n" +
+        $"║                                     ║\n" +
+        $"║    REQUESTS                         ║\n" +
+        $"║ 3. Request a project allocation     ║\n" +
+        $"║ 4. Request a project title change   ║\n" +
+        $"║ 5. Request a project deregistration ║\n" +
+        $"║ 6. View my request history          ║\n" +
+        $"║                                     ║\n" +
+        $"║    SETTINGS                         ║\n" +
+        $"║ 7. Change password                  ║\n" +
+        $"╚═════════════════════════════════════╝\n" +
+        $"Please select an option:");           
 
     public override void Run()
     {
