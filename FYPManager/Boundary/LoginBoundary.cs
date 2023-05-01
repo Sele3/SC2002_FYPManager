@@ -1,4 +1,6 @@
-﻿using FYPManager.Boundary.Services;
+﻿using FYPManager.Boundary.Services.ConsoleDisplay;
+using FYPManager.Boundary.Services.InputHandlers;
+using FYPManager.Boundary.Services.UserAttribute;
 using FYPManager.Controller;
 using FYPManager.Entity.Users;
 using FYPManager.Exceptions;
@@ -8,7 +10,7 @@ namespace FYPManager.Boundary;
 /// <summary>
 /// The LoginBoundary class provides a console-based login system that allows users to login as a student, supervisor, or coordinator.
 /// </summary>
-public class LoginBoundary
+public class LoginBoundary : IMenuDisplayable
 {
     private readonly LoginController _loginController;
 
@@ -24,17 +26,8 @@ public class LoginBoundary
     /// <summary>
     /// Displays the login menu options to the console.
     /// </summary>
-    private static void DisplayMenu() => Console.WriteLine(
-        $"\n" +
-        $"┌────────────────────────────────────────┐\n" +
-        $"│ <Enter 0 to shutdown system>           │\n" +
-        $"│──────── Welcome to FYP Manager ────────│\n" +
-        $"│ Login as                               │\n" +
-        $"│ 1. Student                             │\n" +
-        $"│ 2. Supervisor                          │\n" +
-        $"│ 3. Coordinator                         │\n" +
-        $"└────────────────────────────────────────┘\n" +
-        $"Please select an option:");
+    private static void DisplayMenu() 
+        => Console.WriteLine(MenuDisplayService<LoginBoundary>.GetMenuDisplayText());
 
     /// <summary>
     /// Displays the login menu and allows users to login as a student, supervisor, or coordinator.
@@ -47,9 +40,9 @@ public class LoginBoundary
             {
                 DisplayMenu();
 
-                var idx = NumberHandler.ReadInt(3);
+                var choice = NumberHandler.ReadInt(3);
 
-                if (idx == 0)
+                if (choice == 0)
                 {
                     Console.WriteLine("Shutting down system ...");
                     return;
@@ -62,7 +55,7 @@ public class LoginBoundary
                 var password = StringHandler.ReadString();
                 var hashedPassword = PasswordService.HashPassword(password);
 
-                switch (idx)
+                switch (choice)
                 {
                     case 1:
                         _loginController.LoginAs<Student>(userID, hashedPassword);

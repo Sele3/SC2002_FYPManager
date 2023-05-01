@@ -9,12 +9,12 @@ namespace FYPManager.Boundary.Services.StrategySelector;
 public class ProjectStrategySelector : IMenuDisplayable
 {
     private FilterOrderStrategy<Project> Strategy { get; set; }
-    private Dictionary<int, Action> ChoiceMap { get; set; }
+    private Dictionary<int, Action> ChoiceDict { get; set; }
 
     public ProjectStrategySelector()
     {
         Strategy = new();
-        ChoiceMap = new()
+        ChoiceDict = new()
         {
             { 1, ClearFilter },
             { 2, SetFilterByTitle },
@@ -45,7 +45,7 @@ public class ProjectStrategySelector : IMenuDisplayable
             if (choice == 0)
                 return Strategy;
 
-            ChoiceMap.TryGetValue(choice, out var action);
+            ChoiceDict.TryGetValue(choice, out var action);
             action?.Invoke();
         }
     }

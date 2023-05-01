@@ -33,7 +33,7 @@ public enum ProjectStatus
 /// <summary>
 /// A <see cref="Project"/> which is available for allocation to a <see cref="Student"/>.
 /// </summary>
-public class Project
+public class Project : IDisplayable
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key]

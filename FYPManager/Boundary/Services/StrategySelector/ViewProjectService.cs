@@ -21,7 +21,7 @@ public static class ViewProjectService
             $"Please select an option:");
     }
 
-    public static void ViewAllExistingProjects(IStrategyCompatible<Project> controller)
+    public static void ViewProjects(IStrategyCompatible<Project> controller)
     {
         var projectStrategySelector = new ProjectStrategySelector();
         var strategy = new FilterOrderStrategy<Project>();

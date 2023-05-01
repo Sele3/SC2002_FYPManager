@@ -1,10 +1,13 @@
-﻿using FYPManager.Boundary.Services;
+﻿using FYPManager.Boundary.Services.ConsoleDisplay;
+using FYPManager.Boundary.Services.InputHandlers;
+using FYPManager.Boundary.Services.StrategySelector;
 using FYPManager.Controller.UserController;
 using FYPManager.Exceptions;
 
+
 namespace FYPManager.Boundary.UserBoundary;
 
-public class CoordinatorBoundary : SupervisorBoundary
+public class CoordinatorBoundary : SupervisorBoundary, IMenuDisplayable
 {
     private readonly CoordinatorController _coordinatorController;
 
@@ -13,38 +16,17 @@ public class CoordinatorBoundary : SupervisorBoundary
         _coordinatorController = coordinatorController;
     }
 
-    private static void DisplayMenu() => Console.WriteLine(
-        $"{GetWelcomeText()}" +
-        $"╔═════════════════════════════════════╗\n" +
-        $"║       Coordinator FYP Menu          ║\n" +
-        $"╟─────────────────────────────────────╢\n" +
-        $"║    PROJECTS                         ║\n" +
-        $"║ 1. Create a new project             ║\n" +
-        $"║ 2. Update an existing project title ║\n" +
-        $"║ 3. View my submitted projects       ║\n" +
-        $"║ 4. View all existing projects       ║\n" +
-        $"║                                     ║\n" +
-        $"║    REQUESTS                         ║\n" +
-        $"║ 5. View all pending requests        ║\n" +
-        $"║ 6. View all request history         ║\n" +
-        $"║ 7. Request a student transfer       ║\n" +
-        $"║                                     ║\n" +
-        $"║    SETTINGS                         ║\n" +
-        $"║ 8. Change password                  ║\n" +
-        $"╚═════════════════════════════════════╝\n" +
-        $"Please select an option:");
-
     public override void Run()
     {
         while (true)
         {
             try
             {
-                DisplayMenu();
+                DisplayMenu<CoordinatorBoundary>();
 
-                var idx = NumberHandler.ReadInt(8);
+                var choice = NumberHandler.ReadInt(8);
                 
-                switch (idx)
+                switch (choice)
                 {
                     case 0:
                         Logout();
@@ -59,9 +41,9 @@ public class CoordinatorBoundary : SupervisorBoundary
                     //case 3:
                     //    ViewMySubmittedProjects();
                     //    break;
-                    //case 4:
-                    //    ViewAllExistingProjects();
-                    //    break;
+                    case 4:
+                        ViewAllExistingProjects();
+                        break;
                     //case 5:
                     //    ViewAllPendingRequests();
                     //    break;
@@ -83,4 +65,7 @@ public class CoordinatorBoundary : SupervisorBoundary
             }
         }
     }
+    
+    private void ViewAllExistingProjects()
+        => ViewProjectService.ViewProjects(_coordinatorController);
 }

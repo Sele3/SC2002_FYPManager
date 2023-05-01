@@ -1,10 +1,11 @@
-﻿using FYPManager.Boundary.Services;
+﻿using FYPManager.Boundary.Services.ConsoleDisplay;
+using FYPManager.Boundary.Services.InputHandlers;
 using FYPManager.Controller.UserController;
 using FYPManager.Exceptions;
 
 namespace FYPManager.Boundary.UserBoundary;
 
-public class SupervisorBoundary : BaseUserBoundary
+public class SupervisorBoundary : BaseUserBoundary, IMenuDisplayable
 {
     private readonly SupervisorController _supervisorController;
 
@@ -13,37 +14,17 @@ public class SupervisorBoundary : BaseUserBoundary
         _supervisorController = supervisorController;
     }
 
-    private static void DisplayMenu() => Console.WriteLine(
-        $"{GetWelcomeText()}" +
-        $"╔═════════════════════════════════════╗\n" +
-        $"║        Supervisor FYP Menu          ║\n" +
-        $"╟─────────────────────────────────────╢\n" +
-        $"║    PROJECTS                         ║\n" +
-        $"║ 1. Create a new project             ║\n" +
-        $"║ 2. Update an existing project title ║\n" +
-        $"║ 3. View my submitted projects       ║\n" +
-        $"║                                     ║\n" +
-        $"║    REQUESTS                         ║\n" +
-        $"║ 4. View my pending requests         ║\n" +
-        $"║ 5. View my request history          ║\n" +
-        $"║ 6. Request a student transfer       ║\n" +
-        $"║                                     ║\n" +
-        $"║    SETTINGS                         ║\n" +
-        $"║ 7. Change password                  ║\n" +
-        $"╚═════════════════════════════════════╝\n" +
-        $"Please select an option:");
-
     public override void Run()
     {
         while (true)
         {
             try
             {
-                DisplayMenu();
+                DisplayMenu<SupervisorBoundary>();
 
-                var idx = NumberHandler.ReadInt(7);
+                var choice = NumberHandler.ReadInt(7);
                 
-                switch (idx)
+                switch (choice)
                 {
                     case 0:
                         Logout();
