@@ -1,4 +1,4 @@
-﻿using FYPManager.Boundary.Services;
+﻿using FYPManager.Boundary.Services.UserAttribute;
 using FYPManager.Boundary.UserBoundary;
 using FYPManager.Controller;
 using FYPManager.Controller.Utility;

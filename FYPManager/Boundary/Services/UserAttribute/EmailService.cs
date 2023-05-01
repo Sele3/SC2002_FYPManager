@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FYPManager.Boundary.Services;
+namespace FYPManager.Boundary.Services.UserAttribute;
 
 /// <summary>
 /// This service provides functionality to retrieve the userID associated with a given email address.

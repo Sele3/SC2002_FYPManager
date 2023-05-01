@@ -1,4 +1,4 @@
-﻿namespace FYPManager.Boundary.Services;
+﻿namespace FYPManager.Boundary.Services.InputHandlers;
 
 /// <summary>
 /// Utility class to handle user input of strings and characters.

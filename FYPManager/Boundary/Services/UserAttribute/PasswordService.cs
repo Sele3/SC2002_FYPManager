@@ -1,9 +1,10 @@
-﻿using FYPManager.Exceptions;
+﻿using FYPManager.Boundary.Services.InputHandlers;
+using FYPManager.Exceptions;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace FYPManager.Boundary.Services;
+namespace FYPManager.Boundary.Services.UserAttribute;
 
 /// <summary>
 /// This service provides methods for password hashing, validation and generation.
@@ -45,7 +46,8 @@ public static class PasswordService
             try
             {
                 ValidatePassword(password);
-            } catch (AccountException ex)
+            }
+            catch (AccountException ex)
             {
                 Console.WriteLine(ex.Message);
                 password = null;

@@ -1,4 +1,4 @@
-using FYPManager.Boundary.Services;
+using FYPManager.Boundary.Services.UserAttribute;
 using FYPManager.Entity.Data;
 using FYPManager.Entity.Projects;
 using FYPManager.Entity.Users;

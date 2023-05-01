@@ -1,4 +1,4 @@
-﻿using FYPManager.Boundary.Services;
+﻿using FYPManager.Boundary.Services.UserAttribute;
 
 namespace FYPManagerTests.ServicesTest;
 
