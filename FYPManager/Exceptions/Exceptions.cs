@@ -25,3 +25,8 @@ public class AccountException : CustomException
     public AccountException() : base("An error occurred with the current account. Please try again.") { }
     public AccountException(string message) : base(message) { }
 }
+
+public class ProjectException : CustomException
+{
+    public ProjectException(string message) : base(message) { }
+}
