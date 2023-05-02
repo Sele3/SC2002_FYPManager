@@ -4,7 +4,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace FYPManagerTests;
 
-public abstract class BaseTest
+/// <summary>
+/// This abtract class provides the base setup which seeds the test database with data.
+/// </summary>
+public abstract class BaseSeedDataTest
 {
     protected IConfiguration _configuration = null!;
     protected TestFYPMContext _context = null!;

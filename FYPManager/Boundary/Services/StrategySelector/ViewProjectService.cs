@@ -31,7 +31,7 @@ public static class ViewProjectService
     /// <summary>
     /// Displays projects based on the selected filter and order strategy.
     /// </summary>
-    /// <param name="controller">The controller that implements the <see cref="IStrategyCompatible"/> interface.</param>
+    /// <param name="controller">The controller that implements the <see cref="IStrategyCompatible{T}"/> interface.</param>
     public static void ViewProjects(IStrategyCompatible<Project> controller)
     {
         var projectStrategySelector = new ProjectStrategySelector();
