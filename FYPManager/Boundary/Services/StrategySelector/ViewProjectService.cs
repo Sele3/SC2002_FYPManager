@@ -5,8 +5,15 @@ using FYPManager.Entity.Projects;
 
 namespace FYPManager.Boundary.Services.StrategySelector;
 
+/// <summary>
+/// This service provides the functionality to view projects using a filter and order strategy.
+/// It provides user options to select a filter and order strategy, and to display the projects using the selected strategy.
+/// </summary>
 public static class ViewProjectService
 {
+    /// <summary>
+    /// Displays the options for selecting filter and ordering strategy, and to display projects
+    /// </summary>
     private static void DisplayOptions()
     {
         Console.Clear();
@@ -21,6 +28,10 @@ public static class ViewProjectService
             $"Please select an option:");
     }
 
+    /// <summary>
+    /// Displays projects based on the selected filter and order strategy.
+    /// </summary>
+    /// <param name="controller">The controller that implements the <see cref="IStrategyCompatible"/> interface.</param>
     public static void ViewProjects(IStrategyCompatible<Project> controller)
     {
         var projectStrategySelector = new ProjectStrategySelector();

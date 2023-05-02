@@ -2,34 +2,47 @@
 
 namespace FYPManager.Controller.Utility.Strategy.Projects;
 
-public class TitleOrderAscendingStrategy : IOrderStrategy<Project>
+/// <summary>
+/// An abstract base class for order strategies used to order a list of projects.
+/// </summary>
+public abstract class BaseOrderStrategy : IOrderStrategy<Project>
 {
-    public IEnumerable<Project> Order(IEnumerable<Project> elements)
-        => elements.OrderBy(p => p.Title);
-    public override string ToString()
-        => "By title ascending";
+    protected bool IsDescending { get; }
+    protected BaseOrderStrategy(bool isDescending = false)
+    {
+        IsDescending = isDescending;
+    }
+
+    public abstract IEnumerable<Project> Order(IEnumerable<Project> elements);
+    public abstract override string ToString();
 }
 
-public class TitleOrderDescendingStrategy : IOrderStrategy<Project>
+/// <summary>
+/// An order strategy used to order a list of projects by title.
+/// </summary>
+public class TitleOrderStrategy : BaseOrderStrategy
 {
-    public IEnumerable<Project> Order(IEnumerable<Project> elements)
-        => elements.OrderByDescending(p => p.Title);
-    public override string ToString()
-        => "By title descending";
+    public TitleOrderStrategy(bool isDescending = false) : base(isDescending) { }
+
+    public override IEnumerable<Project> Order(IEnumerable<Project> elements) => IsDescending
+        ? elements.OrderByDescending(p => p.Title)
+        : elements.OrderBy(p => p.Title);
+
+    public override string ToString() 
+        => $"By title {(IsDescending ? "descending" : "ascending")}";
 }
 
-public class SupervisorOrderAscendingStrategy : IOrderStrategy<Project>
+/// <summary>
+/// An order strategy used to order a list of projects by supervisor name.
+/// </summary>
+public class SupervisorOrderStrategy : BaseOrderStrategy
 {
-    public IEnumerable<Project> Order(IEnumerable<Project> elements)
-        => elements.OrderBy(p => p.Supervisor.Name);
-    public override string ToString()
-        => "By supervisor ascending";
-}
+    public SupervisorOrderStrategy(bool isDescending = false) : base(isDescending) { }
 
-public class SupervisorOrderDescendingStrategy : IOrderStrategy<Project>
-{
-    public IEnumerable<Project> Order(IEnumerable<Project> elements)
-        => elements.OrderByDescending(p => p.Supervisor.Name);
+    public override IEnumerable<Project> Order(IEnumerable<Project> elements) => IsDescending
+        ? elements.OrderByDescending(p => p.Supervisor.Name)
+        : elements.OrderBy(p => p.Supervisor.Name);
+
     public override string ToString()
-        => "By supervisor descending";
+        => $"By supervisor {(IsDescending ? "descending" : "ascending")}";
 }

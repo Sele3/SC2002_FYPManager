@@ -3,10 +3,20 @@ using FYPManager.Boundary.UserBoundary;
 
 namespace FYPManager.Boundary.Services.ConsoleDisplay;
 
+/// <summary>
+/// An interface for classes that has a menu display text.
+/// </summary>
 public interface IMenuDisplayable { }
 
+/// <summary>
+/// A static generic class for displaying menu text based on the type of the class passed in as a generic parameter. The class must implement the <see cref="IMenuDisplayable"/> interface.
+/// </summary>
+/// <typeparam name="T">The type of the class that implements the <see cref="IMenuDisplayable"/> interface.</typeparam>
 public static class MenuDisplayService<T> where T : IMenuDisplayable
 {
+    /// <summary>
+    /// A static dictionary that maps types to the corresponding menu text.
+    /// </summary>
     private static readonly Dictionary<Type, string> classMap;
 
     static MenuDisplayService() => classMap = new Dictionary<Type, string>
@@ -18,6 +28,10 @@ public static class MenuDisplayService<T> where T : IMenuDisplayable
             { typeof(ProjectStrategySelector), PROJECT_STRATEGY_MENU}
         };
 
+    /// <summary>
+    /// Gets the menu display text for the type <see cref="T"/>.
+    /// </summary>
+    /// <returns>The menu display text for the type <see cref="T"/>.</returns>
     public static string GetMenuDisplayText()
     {
         Console.Clear();

@@ -6,6 +6,9 @@ using FYPManager.Entity.Projects;
 
 namespace FYPManager.Boundary.Services.StrategySelector;
 
+/// <summary>
+/// This class provides the functionality to select a filter and order strategy for viewing projects.
+/// </summary>
 public class ProjectStrategySelector : IMenuDisplayable
 {
     private FilterOrderStrategy<Project> Strategy { get; set; }
@@ -28,12 +31,19 @@ public class ProjectStrategySelector : IMenuDisplayable
         };
     }
 
+    /// <summary>
+    /// Displays the current selected options.
+    /// </summary>
     private void DisplayMenu() => Console.WriteLine(
         $"{MenuDisplayService<ProjectStrategySelector>.GetMenuDisplayText()}" +
         $"Currently selected\n" +
         $"{Strategy}" +
         $"Please select an option:");
 
+    /// <summary>
+    /// Selects a custom filter and order strategy chosen by the user.
+    /// </summary>
+    /// <returns>The selected filter and order strategy.</returns>
     public FilterOrderStrategy<Project> SelectProjectStrategy()
     {
         while (true)
@@ -50,9 +60,15 @@ public class ProjectStrategySelector : IMenuDisplayable
         }
     }
 
+    /// <summary>
+    /// Clears the current filter strategy.
+    /// </summary>
     private void ClearFilter()
         => Strategy.FilterStrategy = null;
 
+    /// <summary>
+    /// Sets the filter strategy to filter by title.
+    /// </summary>
     private void SetFilterByTitle()
     {
         Console.WriteLine("Please enter a title to filter by:");
@@ -60,12 +76,18 @@ public class ProjectStrategySelector : IMenuDisplayable
         Strategy.FilterStrategy = new TitleFilterStrategy(keyword);
     }
 
+    /// <summary>
+    /// Sets the filter strategy to filter by status.
+    /// </summary>
     private void SetFilterByStatus()
     {
         var status = EnumHandler<ProjectStatus>.ReadEnum("Project Status");
         Strategy.FilterStrategy = new StatusFilterStrategy(status);
     }
 
+    /// <summary>
+    /// Sets the filter strategy to filter by supervisor.
+    /// </summary>
     private void SetFilterBySupervisor()
     {
         Console.WriteLine("Please enter a supervisor to filter by:");
@@ -73,18 +95,33 @@ public class ProjectStrategySelector : IMenuDisplayable
         Strategy.FilterStrategy = new SupervisorFilterStrategy(keyword);
     }
 
+    /// <summary>
+    /// Clears the current order strategy.
+    /// </summary>
     private void ClearOrder()
         => Strategy.OrderStrategy = null;
 
+    /// <summary>
+    /// Sets the order strategy to order by title in ascending order.
+    /// </summary>
     private void SetOrderByTitleAscending()
-        => Strategy.OrderStrategy = new TitleOrderAscendingStrategy();
+        => Strategy.OrderStrategy = new TitleOrderStrategy();
 
+    /// <summary>
+    /// Sets the order strategy to order by title in descending order.
+    /// </summary>
     private void SetOrderByTitleDescending()
-        => Strategy.OrderStrategy = new TitleOrderDescendingStrategy();
+        => Strategy.OrderStrategy = new TitleOrderStrategy(isDescending: true);
 
+    /// <summary>
+    /// Sets the order strategy to order by supervisor in ascending order.
+    /// </summary>
     private void SetOrderBySupervisorAscending()
-        => Strategy.OrderStrategy = new SupervisorOrderAscendingStrategy();
+        => Strategy.OrderStrategy = new SupervisorOrderStrategy();
 
+    /// <summary>
+    /// Sets the order strategy to order by supervisor in descending order.
+    /// </summary>
     private void SetOrderBySupervisorDescending()
-        => Strategy.OrderStrategy = new SupervisorOrderDescendingStrategy();
+        => Strategy.OrderStrategy = new SupervisorOrderStrategy(isDescending: true);
 }
