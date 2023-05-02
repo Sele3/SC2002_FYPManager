@@ -1,6 +1,8 @@
 ﻿using FYPManager.Boundary.Services.ConsoleDisplay;
 using FYPManager.Boundary.Services.InputHandlers;
 using FYPManager.Controller.UserController;
+using FYPManager.Controller.Utility;
+using FYPManager.Entity.Users;
 using FYPManager.Exceptions;
 
 namespace FYPManager.Boundary.UserBoundary;
@@ -29,9 +31,10 @@ public class SupervisorBoundary : BaseUserBoundary, IMenuDisplayable
                     case 0:
                         Logout();
                         return;
-                    //case 1:
-                    //    CreateNewProject();
-                    //    break;
+
+                    case 1:
+                        CreateNewProject();
+                        break;
                     //case 2:
                     //    UpdateExistingProjectTitle();
                     //    break;
@@ -55,8 +58,18 @@ public class SupervisorBoundary : BaseUserBoundary, IMenuDisplayable
             }
             catch (CustomException ex)
             {
-                Console.WriteLine(ex.Message);
+                OptionalFailureMessage = ex.Message;
             }
         }
+    }
+
+    private void CreateNewProject()
+    {
+        Console.WriteLine("Enter the title of the project: ");
+        var projectTitle = StringHandler.ReadString();
+        var supervisor = (Supervisor)UserSession.GetCurrentUser();
+        _supervisorController.CreateProject(projectTitle, supervisor);
+
+        OptionalSuccessMessage = $"Project '{projectTitle}' created successfully.";
     }
 }

@@ -10,7 +10,7 @@ namespace FYPManager.Boundary;
 /// <summary>
 /// The LoginBoundary class provides a console-based login system that allows users to login as a student, supervisor, or coordinator.
 /// </summary>
-public class LoginBoundary : IMenuDisplayable
+public class LoginBoundary : BaseBoundary, IMenuDisplayable
 {
     private readonly LoginController _loginController;
 
@@ -26,8 +26,11 @@ public class LoginBoundary : IMenuDisplayable
     /// <summary>
     /// Displays the login menu options to the console.
     /// </summary>
-    private static void DisplayMenu() 
-        => Console.WriteLine(MenuDisplayService<LoginBoundary>.GetMenuDisplayText());
+    private void DisplayMenu()
+    {
+        DisplayOptionalHeaderMessage();
+        MenuDisplayService<LoginBoundary>.DisplayMenuBody();
+    }
 
     /// <summary>
     /// Displays the login menu and allows users to login as a student, supervisor, or coordinator.
@@ -70,7 +73,7 @@ public class LoginBoundary : IMenuDisplayable
             }
             catch (CustomException ex)
             {
-                Console.WriteLine(ex.Message);
+                OptionalFailureMessage = ex.Message;
             }
         }
     }

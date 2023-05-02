@@ -5,19 +5,22 @@ using FYPManager.Controller.Utility;
 
 namespace FYPManager.Boundary.UserBoundary;
 
-public abstract class BaseUserBoundary
+public abstract class BaseUserBoundary : BaseBoundary
 {
     public abstract void Run();
 
-    protected static void DisplayMenu<T>() where T : IMenuDisplayable => Console.WriteLine(
-        $"{GetWelcomeText()}" +
-        $"{MenuDisplayService<T>.GetMenuDisplayText()}");
+    protected void DisplayMenu<T>() where T : IMenuDisplayable
+    {
+        DisplayOptionalHeaderMessage();
+        DisplayWelcomeText();
+        MenuDisplayService<T>.DisplayMenuBody();
+    }
 
-    private static string GetWelcomeText() =>
+    private static void DisplayWelcomeText() => Console.WriteLine(
         $"┌─────────────────────────────────────┐\n" +
         $"│ Hello, {UserSession.GetCurrentUser().Name,-29}│\n" +
         $"│ <Enter 0 to log out>                │\n" +
-        $"└─────────────────────────────────────┘\n";
+        $"└─────────────────────────────────────┘");
 
     protected static void ChangePassword(BaseUserController controller)
     {

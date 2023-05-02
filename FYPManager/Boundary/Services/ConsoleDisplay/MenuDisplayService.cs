@@ -29,14 +29,10 @@ public static class MenuDisplayService<T> where T : IMenuDisplayable
         };
 
     /// <summary>
-    /// Gets the menu display text for the type <see cref="T"/>.
+    /// Displays the menu text of the class passed in as a generic parameter.
     /// </summary>
-    /// <returns>The menu display text for the type <see cref="T"/>.</returns>
-    public static string GetMenuDisplayText()
-    {
-        Console.Clear();
-        return classMap[typeof(T)];
-    }
+    public static void DisplayMenuBody() => Console.WriteLine(classMap[typeof(T)]);
+    
 
     private const string LOGIN_MENU =
         $"┌────────────────────────────────────────┐\n" +

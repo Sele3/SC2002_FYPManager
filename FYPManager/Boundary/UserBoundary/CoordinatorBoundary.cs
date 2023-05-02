@@ -61,7 +61,7 @@ public class CoordinatorBoundary : SupervisorBoundary, IMenuDisplayable
             }
             catch (CustomException ex)
             {
-                Console.WriteLine(ex.Message);
+                OptionalFailureMessage = ex.Message;
             }
         }
     }

@@ -34,11 +34,14 @@ public class ProjectStrategySelector : IMenuDisplayable
     /// <summary>
     /// Displays the current selected options.
     /// </summary>
-    private void DisplayMenu() => Console.WriteLine(
-        $"{MenuDisplayService<ProjectStrategySelector>.GetMenuDisplayText()}" +
-        $"Currently selected\n" +
-        $"{Strategy}" +
-        $"Please select an option:");
+    private void DisplayMenu()
+    {
+        MenuDisplayService<ProjectStrategySelector>.DisplayMenuBody();
+        Console.WriteLine(
+            $"Currently selected\n" +
+            $"{Strategy}" +
+            $"Please select an option:");
+    }
 
     /// <summary>
     /// Selects a custom filter and order strategy chosen by the user.
