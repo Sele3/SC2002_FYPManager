@@ -8,7 +8,7 @@ namespace FYPManagerTests.StrategyTests;
 /// This class contains unit tests for the <see cref="FilterOrderStrategy{T}"/> class.
 /// </summary>
 [TestClass]
-public class FilterOrderStrategyTest : BaseSeedDataTest
+public class FilterOrderStrategyTest : BaseWithSeedDataTest
 {
     private FilterOrderStrategy<Project> Strategy { get; } = new();
     private IEnumerable<Project> TestData { get; set; } = null!;

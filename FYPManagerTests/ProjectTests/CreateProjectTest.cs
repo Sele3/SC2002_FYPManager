@@ -4,7 +4,7 @@ using FYPManager.Exceptions;
 namespace FYPManagerTests.ProjectTests;
 
 [TestClass]
-public class CreateProjectTest : BaseSeedDataTest
+public class CreateProjectTest : BaseWithSeedDataTest
 {
     private SupervisorController SupervisorController { get; set; } = null!;
 

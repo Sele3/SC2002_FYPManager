@@ -13,7 +13,7 @@ namespace FYPManager.FYPManagerTests;
 /// It also tests that the data initialiser can map the data from the excel files to the correct user types.
 /// </summary>
 [TestClass]
-public class DataInitialiserTest : BaseSeedDataTest
+public class DataInitialiserTest : BaseWithSeedDataTest
 {
     /// <summary>
     /// Test that the data initialiser can seed the database with students.

@@ -7,7 +7,7 @@ namespace FYPManagerTests;
 /// <summary>
 /// This abtract class provides the base setup which seeds the test database with data.
 /// </summary>
-public abstract class BaseSeedDataTest
+public abstract class BaseWithSeedDataTest
 {
     protected IConfiguration _configuration = null!;
     protected TestFYPMContext _context = null!;

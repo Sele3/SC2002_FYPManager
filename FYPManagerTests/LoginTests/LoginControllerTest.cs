@@ -12,7 +12,7 @@ namespace FYPManagerTests.LoginTests;
 /// This class contains unit tests for the <see cref="LoginController"/> class.
 /// </summary>
 [TestClass]
-public class LoginControllerTest : BaseSeedDataTest
+public class LoginControllerTest : BaseWithSeedDataTest
 {
     private readonly Mock<SupervisorBoundary> _mockSupervisorBoundary = new(null);
     private LoginController _loginController = null!;
