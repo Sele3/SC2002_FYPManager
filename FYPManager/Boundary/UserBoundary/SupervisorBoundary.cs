@@ -35,12 +35,14 @@ public class SupervisorBoundary : BaseUserBoundary, IMenuDisplayable
                     case 1:
                         CreateNewProject();
                         break;
-                    //case 2:
-                    //    UpdateExistingProjectTitle();
-                    //    break;
-                    //case 3:
-                    //    ViewMySubmittedProjects();
-                    //    break;
+
+                    case 2:
+                        UpdateExistingProjectTitle();
+                        break;
+
+                    case 3:
+                        ViewMySubmittedProjects();
+                        break;
                     //case 4:
                     //    ViewMyPendingRequests();
                     //    break;
@@ -63,7 +65,7 @@ public class SupervisorBoundary : BaseUserBoundary, IMenuDisplayable
         }
     }
 
-    private void CreateNewProject()
+    protected void CreateNewProject()
     {
         Console.WriteLine("Enter the title of the project: ");
         var projectTitle = StringHandler.ReadString();
@@ -71,5 +73,25 @@ public class SupervisorBoundary : BaseUserBoundary, IMenuDisplayable
         _supervisorController.CreateProject(projectTitle, supervisor);
 
         OptionalSuccessMessage = $"Project '{projectTitle}' created successfully.";
+    }
+
+    protected void UpdateExistingProjectTitle()
+    {
+        Console.WriteLine("Enter the ID of the project you wish to update: ");
+        var projectID = NumberHandler.ReadInt();
+
+        Console.WriteLine("Enter the new title of the project: ");
+        var newProjectTitle = StringHandler.ReadString();
+
+        _supervisorController.UpdateProjectTitle(projectID, newProjectTitle);
+
+        OptionalSuccessMessage = $"Project title updated successfully.";
+    }
+
+    protected void ViewMySubmittedProjects()
+    {
+        var supervisor = (Supervisor)UserSession.GetCurrentUser();
+        var projects = _supervisorController.GetProjectsBy(supervisor);
+        PaginatorService.Paginate(projects, 4, "My Submitted Projects");
     }
 }

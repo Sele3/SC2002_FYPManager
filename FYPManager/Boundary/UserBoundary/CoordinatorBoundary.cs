@@ -32,15 +32,18 @@ public class CoordinatorBoundary : SupervisorBoundary, IMenuDisplayable
                         Logout();
                         return;
 
-                    //case 1:
-                    //    CreateNewProject();
-                    //    break;
-                    //case 2:
-                    //    UpdateExistingProjectTitle();
-                    //    break;
-                    //case 3:
-                    //    ViewMySubmittedProjects();
-                    //    break;
+                    case 1:
+                        CreateNewProject();
+                        break;
+
+                    case 2:
+                        UpdateExistingProjectTitle();
+                        break;
+
+                    case 3:
+                        ViewMySubmittedProjects();
+                        break;
+
                     case 4:
                         ViewAllExistingProjects();
                         break;

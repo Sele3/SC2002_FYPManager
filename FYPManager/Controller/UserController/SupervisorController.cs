@@ -16,8 +16,7 @@ public class SupervisorController : BaseUserController
 
     public void CreateProject(string projectTitle, Supervisor supervisor)
     {
-        if (_context.Projects.Any(p => p.Title.Equals(projectTitle)))
-            throw new ProjectException($"A project with title '{projectTitle}' already exists.");
+        ValidateTitleDoesNotExist(projectTitle);
 
         var project = new Project
         {
@@ -27,5 +26,33 @@ public class SupervisorController : BaseUserController
         };
         _context.Projects.Add(project);
         _context.SaveChanges();
+    }
+
+    public List<Project> GetProjectsBy(Supervisor supervisor)
+        => _context.Projects.Where(p => p.SupervisorID == supervisor.UserID).ToList();
+
+    public void UpdateProjectTitle(int projectID, string newTitle)
+    {
+        ValidateProjectID(projectID);
+        
+        var project = _context.Projects
+            .FirstOrDefault(p => p.ProjectID == projectID);
+
+        ValidateTitleDoesNotExist(newTitle);
+
+        project!.Title = newTitle;
+        _context.SaveChanges();
+    }
+
+    private void ValidateProjectID(int projectID)
+    {
+        if (!_context.Projects.Any(p => p.ProjectID == projectID))
+            throw new ProjectException($"Project with ID '{projectID}' does not exist.");
+    }
+
+    private void ValidateTitleDoesNotExist(string title)
+    {
+        if (_context.Projects.Any(p => p.Title.Equals(title)))
+            throw new ProjectException($"A project with title '{title}' already exists.");
     }
 }
