@@ -4,6 +4,7 @@ using FYPManager.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FYPManager.Migrations
 {
     [DbContext(typeof(FYPMContext))]
-    partial class FYPMContextModelSnapshot : ModelSnapshot
+    [Migration("20230503165246_AddAllocateProjectRequest")]
+    partial class AddAllocateProjectRequest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,34 +94,6 @@ namespace FYPManager.Migrations
                     b.ToTable("AllocateProjectRequests");
                 });
 
-            modelBuilder.Entity("FYPManager.Entity.Requests.DeallocateProjectRequest", b =>
-                {
-                    b.Property<int>("RequestID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestID"));
-
-                    b.Property<string>("DeallocateStudentID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("IsSeen")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("RequestAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RequestStatus")
-                        .HasColumnType("int");
-
-                    b.HasKey("RequestID");
-
-                    b.HasIndex("DeallocateStudentID");
-
-                    b.ToTable("DeallocateProjectRequests");
-                });
-
             modelBuilder.Entity("FYPManager.Entity.Requests.TitleChangeRequest", b =>
                 {
                     b.Property<int>("RequestID")
@@ -160,45 +135,6 @@ namespace FYPManager.Migrations
                     b.HasIndex("RequestToSupervisorID");
 
                     b.ToTable("TitleChangeRequests");
-                });
-
-            modelBuilder.Entity("FYPManager.Entity.Requests.TransferStudentRequest", b =>
-                {
-                    b.Property<int>("RequestID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestID"));
-
-                    b.Property<bool>("IsSeen")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ProjectID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("RequestAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RequestStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TransferFromSupervisorID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TransferToSupervisorID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("RequestID");
-
-                    b.HasIndex("ProjectID");
-
-                    b.HasIndex("TransferFromSupervisorID");
-
-                    b.HasIndex("TransferToSupervisorID");
-
-                    b.ToTable("TransferStudentRequests");
                 });
 
             modelBuilder.Entity("FYPManager.Entity.Users.Student", b =>
@@ -300,17 +236,6 @@ namespace FYPManager.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("FYPManager.Entity.Requests.DeallocateProjectRequest", b =>
-                {
-                    b.HasOne("FYPManager.Entity.Users.Student", "DeallocateStudent")
-                        .WithMany()
-                        .HasForeignKey("DeallocateStudentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DeallocateStudent");
-                });
-
             modelBuilder.Entity("FYPManager.Entity.Requests.TitleChangeRequest", b =>
                 {
                     b.HasOne("FYPManager.Entity.Projects.Project", "Project")
@@ -336,33 +261,6 @@ namespace FYPManager.Migrations
                     b.Navigation("RequestBy");
 
                     b.Navigation("RequestTo");
-                });
-
-            modelBuilder.Entity("FYPManager.Entity.Requests.TransferStudentRequest", b =>
-                {
-                    b.HasOne("FYPManager.Entity.Projects.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FYPManager.Entity.Users.Supervisor", "TransferFrom")
-                        .WithMany()
-                        .HasForeignKey("TransferFromSupervisorID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FYPManager.Entity.Users.Supervisor", "TransferTo")
-                        .WithMany()
-                        .HasForeignKey("TransferToSupervisorID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-
-                    b.Navigation("TransferFrom");
-
-                    b.Navigation("TransferTo");
                 });
 
             modelBuilder.Entity("FYPManager.Entity.Users.Student", b =>

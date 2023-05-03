@@ -45,7 +45,6 @@ public class Project : IDisplayable
     [Required]
     public string SupervisorID { get; set; } = "";
 
-    [Required]
     public virtual Supervisor Supervisor { get; set; } = null!;
 
     public string? StudentID { get; set; }
