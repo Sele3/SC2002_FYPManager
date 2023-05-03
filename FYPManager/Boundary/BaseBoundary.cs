@@ -1,10 +1,17 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using FYPManager.Boundary.Services.ConsoleDisplay;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FYPManager.Boundary;
 
 public abstract class BaseBoundary
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public string OptionalSuccessMessage { private get; set; } = string.Empty;
+    /// <summary>
+    /// 
+    /// </summary>
     public string OptionalFailureMessage { private get; set; } = string.Empty;
 
     public void DisplayOptionalHeaderMessage()
@@ -19,10 +26,8 @@ public abstract class BaseBoundary
         if (OptionalSuccessMessage.IsNullOrEmpty())
             return;
 
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine(OptionalSuccessMessage);
+        MenuDisplayService.DisplayColoredText(OptionalSuccessMessage, ConsoleColor.Green);
         OptionalSuccessMessage = string.Empty;
-        Console.ResetColor();
     }
 
     private void DisplayOptionalFailureMessage()
@@ -30,9 +35,7 @@ public abstract class BaseBoundary
         if (OptionalFailureMessage.IsNullOrEmpty())
             return;
 
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine(OptionalFailureMessage);
+        MenuDisplayService.DisplayColoredText(OptionalFailureMessage, ConsoleColor.Red);
         OptionalFailureMessage = string.Empty;
-        Console.ResetColor();
     }
 }

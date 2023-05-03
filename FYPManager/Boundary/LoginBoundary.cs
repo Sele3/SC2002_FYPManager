@@ -29,7 +29,7 @@ public class LoginBoundary : BaseBoundary, IMenuDisplayable
     private void DisplayMenu()
     {
         DisplayOptionalHeaderMessage();
-        MenuDisplayService<LoginBoundary>.DisplayMenuBody();
+        MenuDisplayService.DisplayMenuBody<LoginBoundary>();
     }
 
     /// <summary>

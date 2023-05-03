@@ -13,7 +13,7 @@ public abstract class BaseUserBoundary : BaseBoundary
     {
         DisplayOptionalHeaderMessage();
         DisplayWelcomeText();
-        MenuDisplayService<T>.DisplayMenuBody();
+        MenuDisplayService.DisplayMenuBody<T>();
     }
 
     private static void DisplayWelcomeText() => Console.WriteLine(
@@ -22,12 +22,13 @@ public abstract class BaseUserBoundary : BaseBoundary
         $"│ <Enter 0 to log out>                │\n" +
         $"└─────────────────────────────────────┘");
 
-    protected static void ChangePassword(BaseUserController controller)
+    protected void ChangePassword(BaseUserController controller)
     {
         Console.WriteLine("Changing password ...");
         var newPassword = PasswordService.GetNewHashedPassword();
         controller.ChangePassword(newPassword);
-        Console.WriteLine("Password changed successfully.");
+        
+        OptionalSuccessMessage = "Password changed successfully.";
     }
     
     protected static void Logout() => UserSession.LogoutCurrentUser();

@@ -1,4 +1,4 @@
-﻿using FYPManager.Boundary.Services.StrategySelector;
+﻿using FYPManager.Boundary.Services.StrategySelector.Projects;
 using FYPManager.Boundary.UserBoundary;
 
 namespace FYPManager.Boundary.Services.ConsoleDisplay;
@@ -11,8 +11,7 @@ public interface IMenuDisplayable { }
 /// <summary>
 /// A static generic class for displaying menu text based on the type of the class passed in as a generic parameter. The class must implement the <see cref="IMenuDisplayable"/> interface.
 /// </summary>
-/// <typeparam name="T">The type of the class that implements the <see cref="IMenuDisplayable"/> interface.</typeparam>
-public static class MenuDisplayService<T> where T : IMenuDisplayable
+public static class MenuDisplayService
 {
     /// <summary>
     /// A static dictionary that maps types to the corresponding menu text.
@@ -28,12 +27,20 @@ public static class MenuDisplayService<T> where T : IMenuDisplayable
             { typeof(ProjectStrategySelector), PROJECT_STRATEGY_MENU}
         };
 
+    public static void DisplayColoredText(string text, ConsoleColor color)
+    {
+        Console.ForegroundColor = color;
+        Console.WriteLine(text);
+        Console.ResetColor();
+    }
+
     /// <summary>
     /// Displays the menu text of the class passed in as a generic parameter.
     /// </summary>
-    public static void DisplayMenuBody() => Console.WriteLine(classMap[typeof(T)]);
+    /// <typeparam name="T">The type of the class that implements the <see cref="IMenuDisplayable"/> interface.</typeparam>
+    public static void DisplayMenuBody<T>() where T : IMenuDisplayable 
+        => Console.WriteLine(classMap[typeof(T)]);
     
-
     private const string LOGIN_MENU =
         $"┌────────────────────────────────────────┐\n" +
         $"│ <Enter 0 to shutdown system>           │\n" +
