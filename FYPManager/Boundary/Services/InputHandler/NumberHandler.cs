@@ -3,12 +3,12 @@
 /// <summary>
 /// Utility class to handle user input of integers and doubles.
 /// </summary>
-internal static class NumberHandler
+public static class NumberHandler
 {
-    //// <summary>
-    /// Reads and returns an integer from user input, prompting again if invalid input is given.
+    /// <summary>
+    /// Reads and returns an non-negative integer input, prompting again if invalid input is given.
     /// </summary>
-    /// <returns>The integer input by the user.</returns>
+    /// <returns></returns>
     public static int ReadInt()
     {
         while (true)

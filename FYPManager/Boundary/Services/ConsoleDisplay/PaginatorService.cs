@@ -18,6 +18,8 @@ public class PaginatorService
     /// <remarks>The list must contain objects that implement the <see cref="IDisplayable"/> interface.</remarks>
     public static void Paginate<T>(List<T> list, int numPerPage, string displayTitle) where T : IDisplayable
     {
+        Console.Clear();
+
         if (list.Count == 0)
         {
             Console.WriteLine("No data to display. Enter any key to continue.");
@@ -57,8 +59,6 @@ public class PaginatorService
     /// <param name="numPages">The total number of pages.</param>
     private static void DisplayTopTitleText(string displayTitle, int currentPage, int numPages)
     {
-        Console.Clear();
-
         DisplayBorder();
         Console.WriteLine($"{displayTitle}");
         Console.WriteLine($"Page {currentPage} of {numPages}");
