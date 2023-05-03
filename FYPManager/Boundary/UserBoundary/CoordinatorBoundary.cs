@@ -1,6 +1,6 @@
 ﻿using FYPManager.Boundary.Services.ConsoleDisplay;
 using FYPManager.Boundary.Services.InputHandlers;
-using FYPManager.Boundary.Services.StrategySelector;
+using FYPManager.Boundary.Services.StrategySelector.Projects;
 using FYPManager.Controller.UserController;
 using FYPManager.Exceptions;
 
@@ -70,5 +70,8 @@ public class CoordinatorBoundary : SupervisorBoundary, IMenuDisplayable
     }
     
     private void ViewAllExistingProjects()
-        => ViewProjectService.ViewProjects(_coordinatorController);
+    {
+        var viewProjectService = new ViewProjectService();
+        viewProjectService.RunDisplayService(_coordinatorController);
+    }
 }

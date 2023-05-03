@@ -1,6 +1,6 @@
 ﻿using FYPManager.Boundary.Services.ConsoleDisplay;
 using FYPManager.Boundary.Services.InputHandlers;
-using FYPManager.Boundary.Services.StrategySelector;
+using FYPManager.Boundary.Services.StrategySelector.Projects;
 using FYPManager.Controller.UserController;
 using FYPManager.Exceptions;
 
@@ -64,5 +64,8 @@ public class StudentBoundary : BaseUserBoundary, IMenuDisplayable
     }
 
     private void ViewAllAvailableProjects()
-        => ViewProjectService.ViewProjects(_studentController);
+    {
+        var viewProjectService = new ViewProjectService();
+        viewProjectService.RunDisplayService(_studentController);
+    }
 }

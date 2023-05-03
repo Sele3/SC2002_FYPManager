@@ -4,7 +4,7 @@ using FYPManager.Controller.Utility.Strategy;
 using FYPManager.Controller.Utility.Strategy.Projects;
 using FYPManager.Entity.Projects;
 
-namespace FYPManager.Boundary.Services.StrategySelector;
+namespace FYPManager.Boundary.Services.StrategySelector.Projects;
 
 /// <summary>
 /// This class provides the functionality to select a filter and order strategy for viewing projects.
@@ -36,7 +36,7 @@ public class ProjectStrategySelector : IMenuDisplayable
     /// </summary>
     private void DisplayMenu()
     {
-        MenuDisplayService<ProjectStrategySelector>.DisplayMenuBody();
+        MenuDisplayService.DisplayMenuBody<ProjectStrategySelector>();
         Console.WriteLine(
             $"Currently selected\n" +
             $"{Strategy}" +
