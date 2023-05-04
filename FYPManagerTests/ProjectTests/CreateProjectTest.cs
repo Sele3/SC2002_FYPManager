@@ -3,18 +3,15 @@ using FYPManager.Exceptions;
 
 namespace FYPManagerTests.ProjectTests;
 
+/// <summary>
+/// This class contains unit tests for the <see cref="SupervisorController.CreateProject"/> method.
+/// </summary>
 [TestClass]
-public class CreateProjectTest : BaseWithSeedDataTest
+public class CreateProjectTest : BaseProjectTest
 {
-    private SupervisorController SupervisorController { get; set; } = null!;
-
-    [TestInitialize]
-    public override void Setup()
-    {
-        base.Setup();
-        SupervisorController = new SupervisorController(_context);
-    }
-
+    /// <summary>
+    /// Tests that a new project can be added successfully.
+    /// </summary>
     [TestMethod]
     public void TestAddProject_Success()
     {
@@ -32,6 +29,9 @@ public class CreateProjectTest : BaseWithSeedDataTest
         Assert.AreEqual(supervisor.UserID, project.SupervisorID);
     }
 
+    /// <summary>
+    /// Tests that attempting to add a project with a title that already exists should fail and throw a <see cref="ProjectException"/>.
+    /// </summary>
     [TestMethod]
     [ExpectedException(typeof(ProjectException))]
     public void TestAddProject_Fail_ProjectAlreadyExists()
