@@ -16,6 +16,22 @@ public class SupervisorBoundary : BaseUserBoundary, IMenuDisplayable
         _supervisorController = supervisorController;
     }
 
+    protected virtual int GetNewPendingRequestCount()
+    {
+        var supervisorID = ((Supervisor)UserSession.GetCurrentUser()).UserID;
+        var newPendingRequestCount = _supervisorController.GetNewPendingRequestCount(supervisorID);
+        return newPendingRequestCount;
+    }
+
+    protected override void DisplayMenu<T>()
+    {
+        var newPendingRequestCount = GetNewPendingRequestCount();
+
+        if (newPendingRequestCount > 0)
+            OptionalMessage = $"You have {newPendingRequestCount} new pending request(s).";
+        base.DisplayMenu<T>();
+    }
+
     public override void Run()
     {
         while (true)
@@ -24,7 +40,7 @@ public class SupervisorBoundary : BaseUserBoundary, IMenuDisplayable
             {
                 DisplayMenu<SupervisorBoundary>();
 
-                var choice = NumberHandler.ReadInt(7);
+                var choice = NumberHandler.ReadInt(8);
                 
                 switch (choice)
                 {
@@ -46,14 +62,19 @@ public class SupervisorBoundary : BaseUserBoundary, IMenuDisplayable
                     //case 4:
                     //    ViewMyPendingRequests();
                     //    break;
+
                     //case 5:
+                    //    ResolvePendingRequests();
+                    //    break;
+
+                    //case 6:
                     //    ViewMyRequestHistory();
                     //    break;
-                    //case 6:
+                    //case 7:
                     //    RequestStudentTransfer();
                     //    break;
 
-                    case 7:
+                    case 8:
                         ChangePassword(_supervisorController);
                         break;
                 }

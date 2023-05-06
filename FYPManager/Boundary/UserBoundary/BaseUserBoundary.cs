@@ -9,7 +9,7 @@ public abstract class BaseUserBoundary : BaseBoundary
 {
     public abstract void Run();
 
-    protected void DisplayMenu<T>() where T : IMenuDisplayable
+    protected virtual void DisplayMenu<T>() where T : IMenuDisplayable
     {
         DisplayOptionalHeaderMessage();
         DisplayWelcomeText();

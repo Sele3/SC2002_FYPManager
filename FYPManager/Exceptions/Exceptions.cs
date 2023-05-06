@@ -26,7 +26,18 @@ public class AccountException : CustomException
     public AccountException(string message) : base(message) { }
 }
 
+/// <summary>
+/// Exception thrown when there is an issue with a project
+/// </summary>
 public class ProjectException : CustomException
 {
     public ProjectException(string message) : base(message) { }
+}
+
+/// <summary>
+/// Exception thrown when there is an issue with a request
+/// </summary>
+public class RequestException : CustomException
+{
+    public RequestException(string message) : base(message) { }
 }

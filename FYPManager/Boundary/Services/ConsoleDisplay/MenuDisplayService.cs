@@ -82,11 +82,12 @@ public static class MenuDisplayService
         $"║                                     ║\n" +
         $"║    REQUESTS                         ║\n" +
         $"║ 4. View my pending requests         ║\n" +
-        $"║ 5. View my request history          ║\n" +
-        $"║ 6. Request a student transfer       ║\n" +
+        $"║ 5. Resolve pending requests         ║\n" +
+        $"║ 6. View my request history          ║\n" +
+        $"║ 7. Request a student transfer       ║\n" +
         $"║                                     ║\n" +
         $"║    SETTINGS                         ║\n" +
-        $"║ 7. Change password                  ║\n" +
+        $"║ 8. Change password                  ║\n" +
         $"╚═════════════════════════════════════╝\n" +
         $"Please select an option:";
 
@@ -102,11 +103,12 @@ public static class MenuDisplayService
         $"║                                     ║\n" +
         $"║    REQUESTS                         ║\n" +
         $"║ 5. View all pending requests        ║\n" +
-        $"║ 6. View all request history         ║\n" +
-        $"║ 7. Request a student transfer       ║\n" +
+        $"║ 6. Resolve pending requests         ║\n" +
+        $"║ 7. View all request history         ║\n" +
+        $"║ 8. Request a student transfer       ║\n" +
         $"║                                     ║\n" +
         $"║    SETTINGS                         ║\n" +
-        $"║ 8. Change password                  ║\n" +
+        $"║ 9. Change password                  ║\n" +
         $"╚═════════════════════════════════════╝\n" +
         $"Please select an option:";
 

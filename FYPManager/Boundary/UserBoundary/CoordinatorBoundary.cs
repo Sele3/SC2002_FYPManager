@@ -2,8 +2,9 @@
 using FYPManager.Boundary.Services.InputHandlers;
 using FYPManager.Boundary.Services.StrategySelector.Projects;
 using FYPManager.Controller.UserController;
+using FYPManager.Controller.Utility;
+using FYPManager.Entity.Users;
 using FYPManager.Exceptions;
-
 
 namespace FYPManager.Boundary.UserBoundary;
 
@@ -16,6 +17,9 @@ public class CoordinatorBoundary : SupervisorBoundary, IMenuDisplayable
         _coordinatorController = coordinatorController;
     }
 
+    protected override int GetNewPendingRequestCount()
+        => _coordinatorController.GetNewPendingRequestCount();
+
     public override void Run()
     {
         while (true)
@@ -24,7 +28,7 @@ public class CoordinatorBoundary : SupervisorBoundary, IMenuDisplayable
             {
                 DisplayMenu<CoordinatorBoundary>();
 
-                var choice = NumberHandler.ReadInt(8);
+                var choice = NumberHandler.ReadInt(9);
                 
                 switch (choice)
                 {
@@ -51,13 +55,16 @@ public class CoordinatorBoundary : SupervisorBoundary, IMenuDisplayable
                     //    ViewAllPendingRequests();
                     //    break;
                     //case 6:
-                    //    ViewAllRequestHistory();
+                    //    ResolvePendingRequests();
                     //    break;
-                    //case 7:
+                    case 7:
+                        ViewAllRequestHistory();
+                        break;
+                    //case 8:
                     //    RequestStudentTransfer();
                     //    break;
 
-                    case 8:
+                    case 9:
                         ChangePassword(_coordinatorController);
                         break;
                 }
@@ -68,7 +75,13 @@ public class CoordinatorBoundary : SupervisorBoundary, IMenuDisplayable
             }
         }
     }
-    
+
+    private void ViewAllRequestHistory()
+    {
+        var requests = _coordinatorController.GetAllRequestHistory();
+        PaginatorService.Paginate(requests, 5, "Viewing All Requests");
+    }
+
     private void ViewAllExistingProjects()
     {
         var viewProjectService = new ViewProjectService();

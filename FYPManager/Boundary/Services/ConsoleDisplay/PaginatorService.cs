@@ -51,6 +51,16 @@ public class PaginatorService
         }
     }
 
+    public static void Paginate<T>(T obj, string displayTitle) where T : IDisplayable
+    {
+        Console.Clear();
+        DisplayTopTitleText(displayTitle, 1, 1);
+        DisplayData(obj.ToString());
+
+        Console.WriteLine("Enter any key to continue.");
+        Console.ReadKey();
+    }
+
     /// <summary>
     /// Displays the top title text of the current page.
     /// </summary>

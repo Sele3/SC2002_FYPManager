@@ -2,6 +2,7 @@
 using FYPManager.Boundary.Services.InputHandlers;
 using FYPManager.Boundary.Services.StrategySelector.Projects;
 using FYPManager.Controller.UserController;
+using FYPManager.Controller.Utility;
 using FYPManager.Exceptions;
 
 namespace FYPManager.Boundary.UserBoundary;
@@ -35,21 +36,24 @@ public class StudentBoundary : BaseUserBoundary, IMenuDisplayable
                         ViewAllAvailableProjects();
                         break;
 
-                    //case 2:
-                    //    ViewAllocatedProject();
-                    //    break;
-                    //case 3:
-                    //    RequestProjectAllocation();
-                    //    break;
+                    case 2:
+                        ViewAllocatedProject();
+                        break;
+
+                    case 3:
+                        RequestProjectAllocation();
+                        break;
+
                     //case 4:
                     //    RequestProjectTitleChange();
                     //    break;
                     //case 5:
                     //    RequestProjectDeregistration();
                     //    break;
-                    //case 6:
-                    //    ViewRequestHistory();
-                    //    break;
+
+                    case 6:
+                        ViewRequestHistory();
+                        break;
 
                     case 7:
                         ChangePassword(_studentController);
@@ -68,4 +72,31 @@ public class StudentBoundary : BaseUserBoundary, IMenuDisplayable
         var viewProjectService = new ViewProjectService();
         viewProjectService.RunDisplayService(_studentController);
     }
+
+    private void ViewAllocatedProject()
+    {
+        var studentID = GetCurrentStudentID();
+        var project = _studentController.GetProjectByStudent(studentID);
+
+        PaginatorService.Paginate(project, "Your current allocated project is: ");
+    }
+
+    private void RequestProjectAllocation()
+    {
+        Console.WriteLine("Please enter the project ID you wish to request: ");
+        var projectID = NumberHandler.ReadInt();
+        var studentID = GetCurrentStudentID();
+
+        _studentController.RequestProjectAllocation(studentID, projectID);
+        OptionalSuccessMessage = "Project allocation request sent successfully.";
+    }
+
+    private void ViewRequestHistory()
+    {
+        var studentID = GetCurrentStudentID();
+        var requests = _studentController.GetRequestHistory(studentID);
+        PaginatorService.Paginate(requests, 4, "Your Request History");
+    }
+
+    private static string GetCurrentStudentID() => UserSession.GetCurrentUser().UserID;
 }

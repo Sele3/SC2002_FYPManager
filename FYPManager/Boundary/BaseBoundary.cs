@@ -13,12 +13,17 @@ public abstract class BaseBoundary
     /// 
     /// </summary>
     public string OptionalFailureMessage { private get; set; } = string.Empty;
+    /// <summary>
+    /// 
+    /// </summary>
+    public string OptionalMessage { private get; set; } = string.Empty;
 
     public void DisplayOptionalHeaderMessage()
     {
         Console.Clear();
         DisplayOptionalSuccessMessage();
         DisplayOptionalFailureMessage();
+        DisplayOptionalMessage();
     }
 
     private void DisplayOptionalSuccessMessage()
@@ -37,5 +42,14 @@ public abstract class BaseBoundary
 
         MenuDisplayService.DisplayColoredText(OptionalFailureMessage, ConsoleColor.Red);
         OptionalFailureMessage = string.Empty;
+    }
+
+    private void DisplayOptionalMessage()
+    {
+        if (OptionalMessage.IsNullOrEmpty())
+            return;
+
+        MenuDisplayService.DisplayColoredText(OptionalMessage, ConsoleColor.Yellow);
+        OptionalMessage = string.Empty;
     }
 }

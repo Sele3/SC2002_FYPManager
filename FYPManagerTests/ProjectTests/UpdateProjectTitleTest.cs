@@ -45,7 +45,8 @@ public class UpdateProjectTitleTest : BaseProjectTest
     public void TestUpdateProjectTitle_Success()
     {
         // Arrange
-        var projectID = _context.Projects
+        var projectID = _context
+            .Projects
             .First(p => p.Title.Equals(TestProject1.Title))
             .ProjectID;
 
@@ -53,7 +54,8 @@ public class UpdateProjectTitleTest : BaseProjectTest
         SupervisorController.UpdateProjectTitle(projectID, "New Project Title");
         
         // Assert
-        var project = _context.Projects
+        var project = _context
+            .Projects
             .First(p => p.ProjectID == projectID);
 
         Assert.AreEqual("New Project Title", project.Title);
