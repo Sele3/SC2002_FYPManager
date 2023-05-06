@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FYPManager.Entity.Requests;
 
+/// <summary>
+/// A request to transfer a <see cref="Project"/> from a <see cref="Supervisor"/> to another <see cref="Supervisor"/>.
+/// </summary>
 public class TransferStudentRequest : BaseRequest
 {
     [Required]
@@ -23,8 +26,12 @@ public class TransferStudentRequest : BaseRequest
         Project.SupervisorID = TransferTo.UserID;
     }
 
-    public override string ToString()
-    {
-        throw new NotImplementedException();
-    }
+    public override string ToString() =>
+        $"--- Transfer Student ---\n" +
+        $"RequestID: {RequestID}\n" +
+        $"Project: {Project.Title}\n" +
+        $"Transfer From: {TransferFromSupervisorID}\n" +
+        $"Transfer To: {TransferToSupervisorID}\n" +
+        $"Requested At: {RequestAt}\n" +
+        $"Request Status: {RequestStatus}";
 }

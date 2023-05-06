@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FYPManager.Entity.Requests;
 
+/// <summary>
+/// A request to change the title of a <see cref="Project"/>.
+/// </summary>
 public class TitleChangeRequest : BaseRequest
 {
     [Required] 
@@ -25,8 +28,13 @@ public class TitleChangeRequest : BaseRequest
         Project.Title = Title;
     }
 
-    public override string ToString()
-    {
-        throw new NotImplementedException();
-    }
+    public override string ToString() =>
+        $"--- Title Change ---\n" +
+        $"RequestID: {RequestID}\n" +
+        $"Old Title: {Project.Title}\n" +
+        $"New Title: {Title}\n" +
+        $"Request By: {RequestByStudentID}\n" +
+        $"Request To: {RequestToSupervisorID}\n" +
+        $"Requested At: {RequestAt}\n" +
+        $"Request Status: {RequestStatus}";
 }

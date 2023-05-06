@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FYPManager.Entity.Requests;
 
+/// <summary>
+/// A request to allocate a <see cref="Project"/> to a <see cref="Student"/>.
+/// </summary>
 public class AllocateProjectRequest : BaseRequest
 {
     [Required]
@@ -22,8 +25,11 @@ public class AllocateProjectRequest : BaseRequest
         Project.Status = ProjectStatus.Allocated;
     }
 
-    public override string ToString()
-    {
-        throw new NotImplementedException();
-    }
+    public override string ToString() =>
+        $"--- Allocate Project ---\n" +
+        $"RequestID: {RequestID}\n" +
+        $"Project: {Project.Title}\n" +
+        $"StudentID: {AllocateToStudentID}\n" +
+        $"Requested At: {RequestAt}\n" +
+        $"Request Status: {RequestStatus}";
 }

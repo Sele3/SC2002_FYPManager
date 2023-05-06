@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FYPManager.Entity.Requests;
 
+/// <summary>
+/// A request to deallocate a <see cref="Project"/> from a <see cref="Student"/>.
+/// </summary>
 public class DeallocateProjectRequest : BaseRequest
 {
     [Required]
@@ -19,8 +22,11 @@ public class DeallocateProjectRequest : BaseRequest
         DeallocateStudent.IsDeallocated = true;
     }
 
-    public override string ToString()
-    {
-        throw new NotImplementedException();
-    }
+    public override string ToString() =>
+        $"--- Deallocate Project ---\n" +
+        $"RequestID: {RequestID}\n" +
+        $"Project: {DeallocateStudent.Project!.Title}" +
+        $"StudentID: {DeallocateStudentID}\n" +
+        $"Requested At: {RequestAt}\n" +
+        $"Request Status: {RequestStatus}";
 }
