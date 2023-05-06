@@ -46,6 +46,6 @@ public abstract class BaseRequest : IDisplayable
     public virtual void Approve()
         => RequestStatus = RequestStatus.Approved;
   
-    public void Reject()
+    public virtual void Reject()
         => RequestStatus = RequestStatus.Rejected;
 }

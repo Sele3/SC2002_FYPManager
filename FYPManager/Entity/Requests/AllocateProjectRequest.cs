@@ -25,6 +25,12 @@ public class AllocateProjectRequest : BaseRequest
         Project.Status = ProjectStatus.Allocated;
     }
 
+    public override void Reject()
+    {
+        base.Reject();
+        Project.Status = ProjectStatus.Available;
+    }
+
     public override string ToString() =>
         $"--- Allocate Project ---\n" +
         $"RequestID: {RequestID}\n" +
