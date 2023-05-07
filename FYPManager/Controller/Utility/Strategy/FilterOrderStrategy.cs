@@ -9,11 +9,11 @@ public class FilterOrderStrategy<T>
     /// <summary>
     /// The filter strategy to use for filtering the elements.
     /// </summary>
-    public IFilterStrategy<T>? FilterStrategy { private get; set; }
+    public IFilterStrategy<T>? FilterStrategy { get; set; }
     /// <summary>
     /// The order strategy to use for ordering the elements.
     /// </summary>
-    public IOrderStrategy<T>? OrderStrategy { private get; set; }
+    public IOrderStrategy<T>? OrderStrategy { get; set; }
 
     /// <summary>
     /// Filters and orders a collection of elements based on the filter and order strategies set in this object.

@@ -1,5 +1,6 @@
 ﻿using FYPManager.Boundary.Services.ConsoleDisplay;
 using FYPManager.Boundary.Services.InputHandlers;
+using FYPManager.Boundary.Services.StrategySelector.Requests.SupervisorRequests;
 using FYPManager.Controller.UserController;
 using FYPManager.Controller.Utility;
 using FYPManager.Entity.Users;
@@ -59,17 +60,18 @@ public class SupervisorBoundary : BaseUserBoundary, IMenuDisplayable
                     case 3:
                         ViewMySubmittedProjects();
                         break;
-                    //case 4:
-                    //    ViewMyPendingRequests();
-                    //    break;
+
+                    case 4:
+                        ViewMyPendingRequests();
+                        break;
 
                     //case 5:
                     //    ResolvePendingRequests();
                     //    break;
 
-                    //case 6:
-                    //    ViewMyRequestHistory();
-                    //    break;
+                    case 6:
+                        ViewMyRequestHistory();
+                        break;
                     //case 7:
                     //    RequestStudentTransfer();
                     //    break;
@@ -111,8 +113,22 @@ public class SupervisorBoundary : BaseUserBoundary, IMenuDisplayable
 
     protected void ViewMySubmittedProjects()
     {
-        var supervisor = (Supervisor)UserSession.GetCurrentUser();
-        var projects = _supervisorController.GetProjectsBy(supervisor);
+        var supervisorID = UserSession.GetCurrentUser().UserID;
+        var projects = _supervisorController.GetProjectsBy(supervisorID);
         PaginatorService.Paginate(projects, 4, "My Submitted Projects");
     }
+
+    private void ViewMyPendingRequests()
+    {
+        var supervisorID = UserSession.GetCurrentUser().UserID;
+        var requests = _supervisorController.GetRequestsBy(supervisorID);
+        PaginatorService.Paginate(requests, 4, "My Pending Requests");
+    }
+
+    private void ViewMyRequestHistory()
+    {
+        var requestStrategySelector = new SupervisorViewRequestService();
+        requestStrategySelector.RunDisplayService(_supervisorController);
+    }
+
 }

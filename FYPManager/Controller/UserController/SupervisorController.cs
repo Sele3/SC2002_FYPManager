@@ -1,17 +1,14 @@
-﻿using FYPManager.Entity;
+﻿using FYPManager.Controller.Utility;
+using FYPManager.Controller.Utility.Strategy;
+using FYPManager.Entity;
 using FYPManager.Entity.Projects;
 using FYPManager.Entity.Requests;
 using FYPManager.Entity.Users;
 using FYPManager.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FYPManager.Controller.UserController;
 
-public class SupervisorController : BaseUserController
+public class SupervisorController : BaseUserController, IStrategyCompatible<BaseRequest>
 {
     public SupervisorController(FYPMContext context) : base(context) { }
 
@@ -29,8 +26,17 @@ public class SupervisorController : BaseUserController
         _context.SaveChanges();
     }
 
-    public List<Project> GetProjectsBy(Supervisor supervisor)
-        => _context.Projects.Where(p => p.SupervisorID == supervisor.UserID).ToList();
+    public List<Project> GetProjectsBy(string supervisorID)
+        => _context
+        .Projects
+        .Where(p => p.SupervisorID.Equals(supervisorID))
+        .ToList();
+
+    public List<TitleChangeRequest> GetRequestsBy(string supervisorID)
+        => _context
+        .TitleChangeRequests
+        .Where(r => r.RequestToSupervisorID.Equals(supervisorID))
+        .ToList();
 
     public void UpdateProjectTitle(int projectID, string newTitle)
     {
@@ -67,5 +73,27 @@ public class SupervisorController : BaseUserController
     {
         if (_context.Projects.Any(p => p.Title.Equals(title)))
             throw new ProjectException($"A project with title '{title}' already exists.");
+    }
+
+    public List<BaseRequest> GetListUsingStrategy(FilterOrderStrategy<BaseRequest> strategy)
+    {
+        var supervisorID = UserSession.GetCurrentUser().UserID;
+        var requests = _context
+            .TitleChangeRequests
+            .Where(r => r.RequestToSupervisorID.Equals(supervisorID)
+                     && r.RequestStatus == RequestStatus.Pending)
+            .AsEnumerable()
+            .Cast<BaseRequest>();
+
+        var filteredList = strategy
+            .FilterAndOrder(requests)
+            .ToList();
+        return filteredList;
+    }
+
+    private void MarkRequestAsSeen(List<BaseRequest> requests)
+    {
+        requests.ForEach(r => r.IsSeen = true);
+        _context.SaveChanges();
     }
 }

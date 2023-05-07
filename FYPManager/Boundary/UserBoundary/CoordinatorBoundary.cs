@@ -1,9 +1,8 @@
 ﻿using FYPManager.Boundary.Services.ConsoleDisplay;
 using FYPManager.Boundary.Services.InputHandlers;
 using FYPManager.Boundary.Services.StrategySelector.Projects;
+using FYPManager.Boundary.Services.StrategySelector.Requests.CoordinatorRequests;
 using FYPManager.Controller.UserController;
-using FYPManager.Controller.Utility;
-using FYPManager.Entity.Users;
 using FYPManager.Exceptions;
 
 namespace FYPManager.Boundary.UserBoundary;
@@ -51,9 +50,10 @@ public class CoordinatorBoundary : SupervisorBoundary, IMenuDisplayable
                     case 4:
                         ViewAllExistingProjects();
                         break;
-                    //case 5:
-                    //    ViewAllPendingRequests();
-                    //    break;
+
+                    case 5:
+                        ViewAllPendingRequests();
+                        break;
                     //case 6:
                     //    ResolvePendingRequests();
                     //    break;
@@ -76,15 +76,20 @@ public class CoordinatorBoundary : SupervisorBoundary, IMenuDisplayable
         }
     }
 
-    private void ViewAllRequestHistory()
-    {
-        var requests = _coordinatorController.GetAllRequestHistory();
-        PaginatorService.Paginate(requests, 5, "Viewing All Requests");
-    }
-
     private void ViewAllExistingProjects()
     {
         var viewProjectService = new ViewProjectService();
         viewProjectService.RunDisplayService(_coordinatorController);
+    }
+
+    private void ViewAllRequestHistory()
+    {
+        var viewRequestService = new CoordinatorViewRequestService();
+        viewRequestService.RunDisplayService(_coordinatorController);
+    }
+
+    private void ViewAllPendingRequests()
+    {
+        throw new NotImplementedException();
     }
 }

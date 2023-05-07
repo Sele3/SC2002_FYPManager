@@ -9,6 +9,13 @@ namespace FYPManager.Boundary.Services.StrategySelector;
 /// <typeparam name="T">The type of the objects to be displayed.</typeparam>
 public abstract class BaseViewService<T>
 {
+    private BaseStrategySelector<T> StrategySelector { get; set; }
+
+    public BaseViewService(BaseStrategySelector<T> strategySelector)
+    {
+        StrategySelector = strategySelector;
+    }
+
     /// <summary>
     /// Displays the options for selecting filter and ordering strategy, and to display objects.
     /// </summary>
@@ -30,7 +37,8 @@ public abstract class BaseViewService<T>
     /// Gets the filter and ordering strategy to be used.
     /// </summary>
     /// <returns>The filter and ordering strategy.</returns>
-    protected abstract FilterOrderStrategy<T> GetFilterOrderStrategy();
+    protected FilterOrderStrategy<T> GetFilterOrderStrategy()
+        => StrategySelector.SelectProjectStrategy();
 
     /// <summary>
     /// Displays the list of objects using the specified filter and ordering strategy.

@@ -1,5 +1,4 @@
 ﻿using FYPManager.Boundary.Services.ConsoleDisplay;
-using FYPManager.Boundary.Services.InputHandlers;
 using FYPManager.Controller.Utility.Strategy;
 using FYPManager.Entity.Projects;
 
@@ -10,16 +9,7 @@ namespace FYPManager.Boundary.Services.StrategySelector.Projects;
 /// </summary>
 public class ViewProjectService : BaseViewService<Project>
 {
-    /// <summary>
-    /// Gets the filter and ordering strategy selected by the user through the project strategy selector
-    /// </summary>
-    /// <returns>The selected filter and ordering strategy for projects</returns>
-    protected override FilterOrderStrategy<Project> GetFilterOrderStrategy()
-    {
-        var projectStrategySelector = new ProjectStrategySelector();
-        var strategy = projectStrategySelector.SelectProjectStrategy();
-        return strategy;
-    }
+    public ViewProjectService() : base(new ProjectStrategySelector()) { }
 
     /// <summary>
     /// Displays a paginated list of projects

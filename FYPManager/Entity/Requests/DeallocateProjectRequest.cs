@@ -14,6 +14,8 @@ public class DeallocateProjectRequest : BaseRequest
 
     public virtual Student DeallocateStudent { get; set; } = null!;
 
+    public override RequestType RequestType => RequestType.DeallocateProject;
+
     public override void Approve()
     {
         base.Approve();

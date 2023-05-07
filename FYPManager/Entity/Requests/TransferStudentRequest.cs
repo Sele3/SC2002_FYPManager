@@ -20,6 +20,8 @@ public class TransferStudentRequest : BaseRequest
     public virtual Supervisor TransferTo { get; set; } = null!;
     public virtual Project Project { get; set; } = null!;
 
+    public override RequestType RequestType => RequestType.TransferStudent;
+
     public override void Approve()
     {
         base.Approve();

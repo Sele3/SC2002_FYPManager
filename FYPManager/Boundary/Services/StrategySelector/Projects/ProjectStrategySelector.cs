@@ -1,6 +1,5 @@
 ﻿using FYPManager.Boundary.Services.ConsoleDisplay;
 using FYPManager.Boundary.Services.InputHandlers;
-using FYPManager.Controller.Utility.Strategy;
 using FYPManager.Controller.Utility.Strategy.Projects;
 using FYPManager.Entity.Projects;
 
@@ -9,32 +8,25 @@ namespace FYPManager.Boundary.Services.StrategySelector.Projects;
 /// <summary>
 /// This class provides the functionality to select a filter and order strategy for viewing projects.
 /// </summary>
-public class ProjectStrategySelector : IMenuDisplayable
+public class ProjectStrategySelector : BaseStrategySelector<Project>, IMenuDisplayable
 {
-    private FilterOrderStrategy<Project> Strategy { get; set; }
-    private Dictionary<int, Action> ChoiceDict { get; set; }
-
-    public ProjectStrategySelector()
+    public ProjectStrategySelector() : base() 
     {
-        Strategy = new();
-        ChoiceDict = new()
-        {
-            { 1, ClearFilter },
-            { 2, SetFilterByTitle },
-            { 3, SetFilterByStatus },
-            { 4, SetFilterBySupervisor },
-            { 5, ClearOrder },
-            { 6, SetOrderByTitleAscending },
-            { 7, SetOrderByTitleDescending },
-            { 8, SetOrderBySupervisorAscending },
-            { 9, SetOrderBySupervisorDescending }
-        };
+        RegisterAction(1, ClearFilter);
+        RegisterAction(2, SetFilterByTitle);
+        RegisterAction(3, SetFilterByStatus);
+        RegisterAction(4, SetFilterBySupervisor);
+        RegisterAction(5, ClearOrder);
+        RegisterAction(6, SetOrderByTitleAscending);
+        RegisterAction(7, SetOrderByTitleDescending);
+        RegisterAction(8, SetOrderBySupervisorAscending);
+        RegisterAction(9, SetOrderBySupervisorDescending);
     }
 
     /// <summary>
     /// Displays the current selected options.
     /// </summary>
-    private void DisplayMenu()
+    protected override void DisplayMenu()
     {
         MenuDisplayService.DisplayMenuBody<ProjectStrategySelector>();
         Console.WriteLine(
@@ -42,32 +34,6 @@ public class ProjectStrategySelector : IMenuDisplayable
             $"{Strategy}" +
             $"Please select an option:");
     }
-
-    /// <summary>
-    /// Selects a custom filter and order strategy chosen by the user.
-    /// </summary>
-    /// <returns>The selected filter and order strategy.</returns>
-    public FilterOrderStrategy<Project> SelectProjectStrategy()
-    {
-        while (true)
-        {
-            DisplayMenu();
-
-            var choice = NumberHandler.ReadInt(9);
-
-            if (choice == 0)
-                return Strategy;
-
-            ChoiceDict.TryGetValue(choice, out var action);
-            action?.Invoke();
-        }
-    }
-
-    /// <summary>
-    /// Clears the current filter strategy.
-    /// </summary>
-    private void ClearFilter()
-        => Strategy.FilterStrategy = null;
 
     /// <summary>
     /// Sets the filter strategy to filter by title.
@@ -97,12 +63,6 @@ public class ProjectStrategySelector : IMenuDisplayable
         var keyword = StringHandler.ReadString();
         Strategy.FilterStrategy = new SupervisorFilterStrategy(keyword);
     }
-
-    /// <summary>
-    /// Clears the current order strategy.
-    /// </summary>
-    private void ClearOrder()
-        => Strategy.OrderStrategy = null;
 
     /// <summary>
     /// Sets the order strategy to order by title in ascending order.

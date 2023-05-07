@@ -22,6 +22,8 @@ public class TitleChangeRequest : BaseRequest
     public virtual Student RequestBy { get; set; } = null!;
     public virtual Supervisor RequestTo { get; set; } = null!;
 
+    public override RequestType RequestType => RequestType.TitleChange;
+
     public override void Approve()
     {
         base.Approve();

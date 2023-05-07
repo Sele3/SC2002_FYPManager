@@ -4,6 +4,36 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FYPManager.Entity.Requests;
 
 /// <summary>
+/// Abstract class representing a request in the system
+/// </summary>
+public abstract class BaseRequest : IDisplayable
+{
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Key]
+    public int RequestID { get; set; }
+
+    [Required]
+    public DateTime RequestAt { get; set; } = DateTime.Now;
+
+    [EnumDataType(typeof(RequestStatus))]
+    [Required]
+    public RequestStatus RequestStatus { get; set; } = RequestStatus.Pending;
+
+    [Required]
+    public bool IsSeen { get; set; } = false;
+
+    public abstract RequestType RequestType { get; }
+
+    public override abstract string ToString();
+
+    public virtual void Approve()
+        => RequestStatus = RequestStatus.Approved;
+  
+    public virtual void Reject()
+        => RequestStatus = RequestStatus.Rejected;
+}
+
+/// <summary>
 /// The different statuses a <see cref="BaseRequest"/> can have.
 /// </summary>
 public enum RequestStatus
@@ -23,29 +53,12 @@ public enum RequestStatus
 }
 
 /// <summary>
-/// Abstract class representing a request in the system
+/// The different types of <see cref="BaseRequest"/>s that can be made.
 /// </summary>
-public abstract class BaseRequest : IDisplayable
+public enum RequestType
 {
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Key]
-    public int RequestID { get; set; }
-
-    [Required]
-    public DateTime RequestAt { get; set; } = DateTime.Now;
-
-    [EnumDataType(typeof(RequestStatus))]
-    [Required]
-    public RequestStatus RequestStatus { get; set; } = RequestStatus.Pending;
-
-    [Required]
-    public bool IsSeen { get; set; } = false;
-
-    public override abstract string ToString();
-
-    public virtual void Approve()
-        => RequestStatus = RequestStatus.Approved;
-  
-    public virtual void Reject()
-        => RequestStatus = RequestStatus.Rejected;
+    AllocateProject,
+    DeallocateProject,
+    TitleChange,
+    TransferStudent,
 }

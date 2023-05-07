@@ -2,12 +2,10 @@
 using FYPManager.Entity;
 using FYPManager.Entity.Projects;
 using FYPManager.Entity.Requests;
-using FYPManager.Entity.Users;
-using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace FYPManager.Controller.UserController;
 
-public class CoordinatorController : BaseUserController, IStrategyCompatible<Project>
+public class CoordinatorController : BaseUserController, IStrategyCompatible<Project>, IStrategyCompatible<BaseRequest>
 {
     public CoordinatorController(FYPMContext context) : base(context) { }
 
@@ -59,5 +57,33 @@ public class CoordinatorController : BaseUserController, IStrategyCompatible<Pro
 
         return list;
     }
-    
+
+    public List<BaseRequest> GetListUsingStrategy(FilterOrderStrategy<BaseRequest> strategy)
+    {
+        var list = new List<BaseRequest>();
+        list.AddRange(GetRequestHistory<AllocateProjectRequest>());
+        list.AddRange(GetRequestHistory<DeallocateProjectRequest>());
+        list.AddRange(GetRequestHistory<TitleChangeRequest>());
+        list.AddRange(GetRequestHistory<TransferStudentRequest>());
+
+        var filteredList = strategy
+            .FilterAndOrder(list)
+            .ToList();
+        return filteredList;
+    }
+
+    private IEnumerable<T> GetPendingRequests<T>() where T : BaseRequest
+    {
+        var dbSet = _context.Set<T>();
+        var pendingRequests = dbSet
+            .Where(r => r.RequestStatus == RequestStatus.Pending)
+            .AsEnumerable();
+        return pendingRequests;
+    }
+
+    private void MarkRequestAsSeen(List<BaseRequest> requests)
+    {
+        requests.ForEach(r => r.IsSeen = true);
+        _context.SaveChanges();
+    }
 }

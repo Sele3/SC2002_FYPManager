@@ -17,6 +17,7 @@ public class AllocateProjectRequest : BaseRequest
     public virtual Project Project { get; set; } = null!;
     public virtual Student AllocateTo { get; set; } = null!;
 
+    public override RequestType RequestType => RequestType.AllocateProject;
 
     public override void Approve()
     {

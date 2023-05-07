@@ -1,4 +1,6 @@
 ﻿using FYPManager.Boundary.Services.StrategySelector.Projects;
+using FYPManager.Boundary.Services.StrategySelector.Requests.CoordinatorRequests;
+using FYPManager.Boundary.Services.StrategySelector.Requests.SupervisorRequests;
 using FYPManager.Boundary.UserBoundary;
 
 namespace FYPManager.Boundary.Services.ConsoleDisplay;
@@ -24,7 +26,9 @@ public static class MenuDisplayService
             { typeof(StudentBoundary), STUDENT_MENU },
             { typeof(SupervisorBoundary), SUPERVISOR_MENU },
             { typeof(CoordinatorBoundary), COORDINATOR_MENU },
-            { typeof(ProjectStrategySelector), PROJECT_STRATEGY_MENU}
+            { typeof(ProjectStrategySelector), PROJECT_STRATEGY_MENU},
+            { typeof(SupervisorRequestStrategySelector), SUPERVISOR_REQUEST_STRATEGY_MENU},
+            { typeof(CoordinatorRequestStrategySelector), COORDINATOR_REQUEST_STRATEGY_MENU},
         };
 
     public static void DisplayColoredText(string text, ConsoleColor color)
@@ -126,5 +130,29 @@ public static class MenuDisplayService
         $"├────────────┴─────────────────┤\n" +
         $"│ 0. Back                      │\n" +
         $"└──────────────────────────────┘\n";
+
+    private const string SUPERVISOR_REQUEST_STRATEGY_MENU =
+        $"┌──────────────────┐\n" +
+        $"│ Select Order:    │\n" +
+        $"├──────────────────┤\n" +
+        $"│ 1. None          │\n" +
+        $"│ 2. Latest First  │\n" +
+        $"│ 3. Oldest First  │\n" +
+        $"├──────────────────┤\n" +
+        $"│ 0. Back          │\n" +
+        $"└──────────────────┘\n";
+
+    private const string COORDINATOR_REQUEST_STRATEGY_MENU =
+        $"┌───────────────────────────────────┐\n" +
+        $"│ Select filter and order:          │\n" +
+        $"├─────────────────┬─────────────────┤\n" +
+        $"│ Filter          │ Order           │\n" +
+        $"├─────────────────┼─────────────────┤\n" +
+        $"│ 1. None         │ 3. None         │\n" +
+        $"│ 2. Request Type │ 4. Latest First │\n" +
+        $"│                 │ 5. Oldest First │\n" +
+        $"├─────────────────┴─────────────────┤\n" +
+        $"│ 0. Back                           │\n" +
+        $"└───────────────────────────────────┘\n";
 }
 
