@@ -3,6 +3,7 @@ using FYPManager.Boundary.Services.InputHandlers;
 using FYPManager.Boundary.Services.StrategySelector.Projects;
 using FYPManager.Boundary.Services.StrategySelector.Requests.CoordinatorRequests;
 using FYPManager.Controller.UserController;
+using FYPManager.Entity.Requests;
 using FYPManager.Exceptions;
 
 namespace FYPManager.Boundary.UserBoundary;
@@ -54,15 +55,18 @@ public class CoordinatorBoundary : SupervisorBoundary, IMenuDisplayable
                     case 5:
                         ViewAllPendingRequests();
                         break;
-                    //case 6:
-                    //    ResolvePendingRequests();
-                    //    break;
+
+                    case 6:
+                        ResolvePendingRequests();
+                        break;
+
                     case 7:
                         ViewAllRequestHistory();
                         break;
-                    //case 8:
-                    //    RequestStudentTransfer();
-                    //    break;
+
+                    case 8:
+                        RequestStudentTransfer();
+                        break;
 
                     case 9:
                         ChangePassword(_coordinatorController);
@@ -90,6 +94,37 @@ public class CoordinatorBoundary : SupervisorBoundary, IMenuDisplayable
 
     private void ViewAllPendingRequests()
     {
-        throw new NotImplementedException();
+        var allPendingRequests = _coordinatorController.GetAllPendingRequests();
+        PaginatorService.Paginate(allPendingRequests, 3, "All Pending Requests");
+
+        _coordinatorController.MarkRequestsAsSeen(allPendingRequests);
+    }
+
+    private void ResolvePendingRequests()
+    {
+        Console.WriteLine("Enter the RequestID of the request you want to resolve: ");
+        var requestID = NumberHandler.ReadInt();
+        var request = _coordinatorController.GetRequestByID(requestID);
+
+        DisplayRequestInfo(request);
+        Console.WriteLine("Do you want to approve this request? (Y/N)");
+        var choice = StringHandler.GetYesNo();
+
+        if (choice)
+        {
+            _coordinatorController.ApproveRequest(request);
+            OptionalMessage = "Request Approved!";
+        }
+        else
+        {
+            CoordinatorController.RejectRequest(request);
+            OptionalMessage = "Request Rejected!";
+        }
+    }
+
+    private void DisplayRequestInfo(BaseRequest request)
+    {
+
+        Console.WriteLine(request);
     }
 }

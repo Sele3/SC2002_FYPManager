@@ -91,9 +91,9 @@ public class SupervisorController : BaseUserController, IStrategyCompatible<Base
         return filteredList;
     }
 
-    private void MarkRequestAsSeen(List<BaseRequest> requests)
-    {
-        requests.ForEach(r => r.IsSeen = true);
-        _context.SaveChanges();
-    }
+    //private void MarkRequestAsSeen(List<BaseRequest> requests)
+    //{
+    //    requests.ForEach(r => r.IsSeen = true);
+    //    _context.SaveChanges();
+    //}
 }

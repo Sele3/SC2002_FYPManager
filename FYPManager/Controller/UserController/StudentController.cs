@@ -54,10 +54,10 @@ public class StudentController : BaseUserController, IStrategyCompatible<Project
 
     private void ValidateValidProjectAllocation(Student student, Project project)
     {
-        ValidateStudentIsNotDeregistered(student);
         ValidateStudentHasNoProject(student);
-        ValidateProjectIsAvailable(project);
+        ValidateStudentIsNotDeregistered(student);
         ValidateStudentHasNoAllocationRequests(student);
+        ValidateProjectIsAvailable(project);
     }
 
     private static void ValidateStudentIsNotDeregistered(Student student)

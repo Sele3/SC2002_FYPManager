@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FYPManager.Boundary.Services.ConsoleDisplay;
 
 namespace FYPManager.Entity.Requests;
 
@@ -24,7 +25,9 @@ public abstract class BaseRequest : IDisplayable
 
     public abstract RequestType RequestType { get; }
 
-    public override abstract string ToString();
+    public override string ToString() => IsSeen
+        ? ""
+        : "[NEW]\n";
 
     public virtual void Approve()
         => RequestStatus = RequestStatus.Approved;

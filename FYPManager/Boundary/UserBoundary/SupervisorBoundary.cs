@@ -65,16 +65,17 @@ public class SupervisorBoundary : BaseUserBoundary, IMenuDisplayable
                         ViewMyPendingRequests();
                         break;
 
-                    //case 5:
-                    //    ResolvePendingRequests();
-                    //    break;
+                    case 5:
+                        ResolvePendingRequests();
+                        break;
 
                     case 6:
                         ViewMyRequestHistory();
                         break;
-                    //case 7:
-                    //    RequestStudentTransfer();
-                    //    break;
+
+                    case 7:
+                        RequestStudentTransfer();
+                        break;
 
                     case 8:
                         ChangePassword(_supervisorController);
@@ -118,11 +119,21 @@ public class SupervisorBoundary : BaseUserBoundary, IMenuDisplayable
         PaginatorService.Paginate(projects, 4, "My Submitted Projects");
     }
 
+    protected void RequestStudentTransfer()
+    {
+        throw new NotImplementedException();
+    }
+
     private void ViewMyPendingRequests()
     {
         var supervisorID = UserSession.GetCurrentUser().UserID;
         var requests = _supervisorController.GetRequestsBy(supervisorID);
-        PaginatorService.Paginate(requests, 4, "My Pending Requests");
+        PaginatorService.Paginate(requests, 3, "My Pending Requests");
+    }
+
+    private void ResolvePendingRequests()
+    {
+        throw new NotImplementedException();
     }
 
     private void ViewMyRequestHistory()

@@ -2,6 +2,7 @@
 using FYPManager.Entity;
 using FYPManager.Entity.Projects;
 using FYPManager.Entity.Requests;
+using FYPManager.Exceptions;
 
 namespace FYPManager.Controller.UserController;
 
@@ -25,37 +26,22 @@ public class CoordinatorController : BaseUserController, IStrategyCompatible<Pro
         return pendingRequestCount;
     }
 
-    private int GetNewPendingRequestCount<T>() where T : BaseRequest
-    {
-        var dbSet = _context.Set<T>();
-        var pendingRequestCount = dbSet
-            .Where(r => r.RequestStatus == RequestStatus.Pending
-                && !r.IsSeen)
-            .Count();
-
-        return pendingRequestCount;
-    }
-
-    public List<BaseRequest> GetAllRequestHistory()
+    public List<BaseRequest> GetAllPendingRequests()
     {
         var list = new List<BaseRequest>();
-        list.AddRange(GetRequestHistory<AllocateProjectRequest>());
-        list.AddRange(GetRequestHistory<DeallocateProjectRequest>());
-        list.AddRange(GetRequestHistory<TitleChangeRequest>());
-        list.AddRange(GetRequestHistory<TransferStudentRequest>());
+        list.AddRange(GetPendingRequests<AllocateProjectRequest>());
+        list.AddRange(GetPendingRequests<DeallocateProjectRequest>());
+        list.AddRange(GetPendingRequests<TitleChangeRequest>());
+        list.AddRange(GetPendingRequests<TransferStudentRequest>());
 
         list.Sort((a, b) => a.RequestAt.CompareTo(b.RequestAt));
         return list;
     }
 
-    private List<T> GetRequestHistory<T>() where T : BaseRequest
+    public void MarkRequestsAsSeen(List<BaseRequest> requests)
     {
-        var dbSet = _context.Set<T>();
-        var list = dbSet
-            .Where(d => d.RequestStatus != RequestStatus.Pending)
-            .ToList();
-
-        return list;
+        requests.ForEach(r => r.IsSeen = true);
+        _context.SaveChanges();
     }
 
     public List<BaseRequest> GetListUsingStrategy(FilterOrderStrategy<BaseRequest> strategy)
@@ -72,18 +58,59 @@ public class CoordinatorController : BaseUserController, IStrategyCompatible<Pro
         return filteredList;
     }
 
-    private IEnumerable<T> GetPendingRequests<T>() where T : BaseRequest
+    public BaseRequest GetRequestByID(int requestID)
     {
-        var dbSet = _context.Set<T>();
-        var pendingRequests = dbSet
-            .Where(r => r.RequestStatus == RequestStatus.Pending)
-            .AsEnumerable();
-        return pendingRequests;
+        var request = GetRequest<AllocateProjectRequest>(requestID)
+            ?? GetRequest<DeallocateProjectRequest>(requestID)
+            ?? GetRequest<TitleChangeRequest>(requestID)
+            ?? GetRequest<TransferStudentRequest>(requestID)
+            ?? throw new RequestException("Request not found");
+        return request;
     }
 
-    private void MarkRequestAsSeen(List<BaseRequest> requests)
+    private int GetNewPendingRequestCount<T>() where T : BaseRequest
     {
-        requests.ForEach(r => r.IsSeen = true);
-        _context.SaveChanges();
+        var dbSet = _context.Set<T>();
+        var pendingRequestCount = dbSet
+            .Where(r => r.RequestStatus == RequestStatus.Pending
+                && !r.IsSeen)
+            .Count();
+
+        return pendingRequestCount;
     }
+
+    private List<T> GetRequestHistory<T>() where T : BaseRequest
+    {
+        var dbSet = _context.Set<T>();
+        var list = dbSet
+            .Where(d => d.RequestStatus != RequestStatus.Pending)
+            .ToList();
+
+        return list;
+    }
+
+    private List<T> GetPendingRequests<T>() where T : BaseRequest
+    {
+        var dbSet = _context.Set<T>();
+
+        return dbSet
+            .Where(r => r.RequestStatus == RequestStatus.Pending)
+            .ToList();
+    }
+
+    private BaseRequest? GetRequest<T>(int requestID) where T : BaseRequest
+    {
+        var dbSet = _context.Set<T>();
+        var request = dbSet
+            .FirstOrDefault(r => r.RequestID == requestID);
+        return request;
+    }
+
+    public void ApproveRequest(BaseRequest request)
+    {
+        throw new NotImplementedException();
+    }
+
+    public static void RejectRequest(BaseRequest request)
+        => request.Reject();
 }

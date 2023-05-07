@@ -31,7 +31,8 @@ public class TitleChangeRequest : BaseRequest
     }
 
     public override string ToString() =>
-        $"--- Title Change ---\n" +
+        $"{base.ToString()}" +
+        $"Request Type: Title Change\n" +
         $"RequestID: {RequestID}\n" +
         $"Old Title: {Project.Title}\n" +
         $"New Title: {Title}\n" +

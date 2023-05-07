@@ -1,4 +1,5 @@
-﻿using FYPManager.Entity.Users;
+﻿using FYPManager.Boundary.Services.ConsoleDisplay;
+using FYPManager.Entity.Users;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

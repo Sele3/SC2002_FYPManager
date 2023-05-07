@@ -29,7 +29,8 @@ public class TransferStudentRequest : BaseRequest
     }
 
     public override string ToString() =>
-        $"--- Transfer Student ---\n" +
+        $"{base.ToString()}" +
+        $"Request Type: Transfer Student\n" +
         $"RequestID: {RequestID}\n" +
         $"Project: {Project.Title}\n" +
         $"Transfer From: {TransferFromSupervisorID}\n" +

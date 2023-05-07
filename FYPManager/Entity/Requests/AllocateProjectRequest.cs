@@ -33,7 +33,8 @@ public class AllocateProjectRequest : BaseRequest
     }
 
     public override string ToString() =>
-        $"--- Allocate Project ---\n" +
+        $"{base.ToString()}" +
+        $"Request Type: Allocate Project\n" +
         $"RequestID: {RequestID}\n" +
         $"Project: {Project.Title}\n" +
         $"StudentID: {AllocateToStudentID}\n" +

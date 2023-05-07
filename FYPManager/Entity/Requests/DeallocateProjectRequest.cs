@@ -25,7 +25,8 @@ public class DeallocateProjectRequest : BaseRequest
     }
 
     public override string ToString() =>
-        $"--- Deallocate Project ---\n" +
+        $"{base.ToString()}" +
+        $"Request Type: Deallocate Project\n" +
         $"RequestID: {RequestID}\n" +
         $"Project: {DeallocateStudent.Project!.Title}" +
         $"StudentID: {DeallocateStudentID}\n" +
